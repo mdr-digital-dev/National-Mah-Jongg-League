@@ -4,9 +4,10 @@ import { ShoppingCart, Menu, X } from 'lucide-react';
 import CartDrawer from './CartDrawer';
 import { NAV_LINKS } from '../data';
 
-const GREEN   = '#1C3A2A';
-const GOLD    = '#C9A84C';
-const CREAM   = '#F7F2E8';
+const ROSE  = '#8B3A52';
+const GOLD  = '#C9A84C';
+const CREAM = '#FDF6F0';
+const DEEP  = '#3D1A26';
 
 export default function Layout({ children, cart, updateQty, removeFromCart }) {
   const [scrolled, setScrolled] = useState(false);
@@ -29,7 +30,7 @@ export default function Layout({ children, cart, updateQty, removeFromCart }) {
 
   const totalQty = cart.reduce((s, i) => s + i.qty, 0);
   const solid = !isHome || scrolled;
-  const linkColor = solid ? GREEN : '#fff';
+  const linkColor = solid ? ROSE : '#fff';
   const logoFilter = solid ? 'none' : 'brightness(0) invert(1)';
 
   return (
@@ -38,7 +39,7 @@ export default function Layout({ children, cart, updateQty, removeFromCart }) {
       <header style={{
         position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100,
         background: solid ? '#fff' : 'transparent',
-        borderBottom: solid ? `2px solid ${GREEN}` : 'none',
+        borderBottom: solid ? `2px solid ${ROSE}30` : 'none',
         transition: 'background 0.35s, border-color 0.35s',
       }}>
         <div style={{
@@ -128,13 +129,13 @@ export default function Layout({ children, cart, updateQty, removeFromCart }) {
 
         {/* Mobile dropdown */}
         {menuOpen && (
-          <div style={{ background: '#fff', borderTop: '1px solid #e5e0d5', paddingBottom: 16 }}>
+          <div style={{ background: '#fff', borderTop: `1px solid ${ROSE}20`, paddingBottom: 16 }}>
             {NAV_LINKS.map(link => (
               <Link key={link.href} to={link.href} style={{
                 display: 'block', padding: '13px 32px',
                 fontFamily: "'Lora', Georgia, serif",
                 fontWeight: 500, fontSize: 18,
-                color: location.pathname === link.href ? GOLD : GREEN,
+                color: location.pathname === link.href ? GOLD : ROSE,
                 textDecoration: 'none',
                 borderLeft: location.pathname === link.href ? `4px solid ${GOLD}` : '4px solid transparent',
               }}>
@@ -165,7 +166,7 @@ export default function Layout({ children, cart, updateQty, removeFromCart }) {
       </main>
 
       {/* ── FOOTER ─────────────────────────────────────────────────── */}
-      <footer style={{ background: GREEN, color: CREAM }}>
+      <footer style={{ background: DEEP, color: CREAM }}>
         <div style={{ background: GOLD, height: 4 }} />
         <div style={{ maxWidth: 1280, margin: '0 auto', padding: '56px 32px 40px' }}>
           <div style={{ textAlign: 'center', fontSize: 20, letterSpacing: 10, marginBottom: 48, opacity: 0.35 }}>
@@ -174,9 +175,9 @@ export default function Layout({ children, cart, updateQty, removeFromCart }) {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 40 }}>
             <div>
               <h3 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 900, fontSize: 20, color: '#fff', margin: '0 0 14px' }}>
-                National Mah Jongg League
+                National Mah Jongg <em style={{ fontStyle: 'italic' }}>League</em>
               </h3>
-              <p style={{ fontFamily: "'Lora', Georgia, serif", fontSize: 16, lineHeight: 1.75, color: 'rgba(247,242,232,0.7)', margin: 0 }}>
+              <p style={{ fontFamily: "'Lora', Georgia, serif", fontSize: 16, lineHeight: 1.75, color: 'rgba(253,246,240,0.7)', margin: 0 }}>
                 The official governing body of American Mah Jongg. Preserving the game and its community since 1937.
               </p>
             </div>
@@ -187,7 +188,7 @@ export default function Layout({ children, cart, updateQty, removeFromCart }) {
               <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex', flexDirection: 'column', gap: 10 }}>
                 {[...NAV_LINKS, { label: 'Charity', href: '/charity' }, { label: 'How to Play', href: '/game' }].map(l => (
                   <li key={l.href}>
-                    <Link to={l.href} style={{ fontFamily: "'Lora', Georgia, serif", fontSize: 16, color: 'rgba(247,242,232,0.75)', textDecoration: 'none' }}>
+                    <Link to={l.href} style={{ fontFamily: "'Lora', Georgia, serif", fontSize: 16, color: 'rgba(253,246,240,0.75)', textDecoration: 'none' }}>
                       {l.label}
                     </Link>
                   </li>
@@ -198,7 +199,7 @@ export default function Layout({ children, cart, updateQty, removeFromCart }) {
               <h4 style={{ fontFamily: "'Lora', Georgia, serif", fontWeight: 600, fontSize: 12, letterSpacing: '0.14em', textTransform: 'uppercase', color: GOLD, margin: '0 0 16px' }}>
                 Contact
               </h4>
-              <address style={{ fontFamily: "'Lora', Georgia, serif", fontStyle: 'normal', fontSize: 16, lineHeight: 1.85, color: 'rgba(247,242,232,0.75)' }}>
+              <address style={{ fontFamily: "'Lora', Georgia, serif", fontStyle: 'normal', fontSize: 16, lineHeight: 1.85, color: 'rgba(253,246,240,0.75)' }}>
                 450 Seventh Avenue, Suite 405<br />
                 New York, NY 10123<br /><br />
                 Mail Orders: PO Box 50003<br />
@@ -207,8 +208,8 @@ export default function Layout({ children, cart, updateQty, removeFromCart }) {
               </address>
             </div>
           </div>
-          <div style={{ borderTop: '1px solid rgba(247,242,232,0.12)', marginTop: 48, paddingTop: 24, textAlign: 'center' }}>
-            <p style={{ fontFamily: "'Lora', Georgia, serif", fontSize: 14, color: 'rgba(247,242,232,0.4)', margin: 0 }}>
+          <div style={{ borderTop: '1px solid rgba(253,246,240,0.12)', marginTop: 48, paddingTop: 24, textAlign: 'center' }}>
+            <p style={{ fontFamily: "'Lora', Georgia, serif", fontSize: 14, color: 'rgba(253,246,240,0.4)', margin: 0 }}>
               &copy; {new Date().getFullYear()} National Mah Jongg League, Inc. All rights reserved.
             </p>
           </div>
@@ -221,7 +222,7 @@ export default function Layout({ children, cart, updateQty, removeFromCart }) {
         <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} aria-label="Back to top"
           style={{
             position: 'fixed', bottom: 32, right: 32, zIndex: 50,
-            background: GREEN, color: CREAM,
+            background: DEEP, color: CREAM,
             border: `2px solid ${GOLD}`, borderRadius: '50%',
             width: 48, height: 48, cursor: 'pointer',
             fontFamily: "'Lora', serif", fontSize: 20,

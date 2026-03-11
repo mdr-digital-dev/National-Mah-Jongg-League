@@ -1,7 +1,7 @@
-export const GREEN   = '#1C3A2A';
+export const GREEN   = '#8B3A52';
 export const GOLD    = '#C9A84C';
-export const CREAM   = '#F7F2E8';
-export const DARK    = '#1C1C1C';
+export const CREAM   = '#FDF6F0';
+export const DARK    = '#2A1A1E';
 export const BURGUNDY = '#5C1A2A';
 
 export const NAV_LINKS = [

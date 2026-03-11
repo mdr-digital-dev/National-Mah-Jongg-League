@@ -10,7 +10,7 @@ import Faq     from './pages/Faq';
 import Contact from './pages/Contact';
 
 const GOLD = '#C9A84C';
-const GREEN = '#1C3A2A';
+const ROSE = '#8B3A52';
 
 function Toast({ toasts }) {
   return (
@@ -23,7 +23,7 @@ function Toast({ toasts }) {
     }}>
       {toasts.map(t => (
         <div key={t.id} role="status" style={{
-          background: GREEN, color: '#fff',
+          background: ROSE, color: '#fff',
           fontFamily: "'Lora', Georgia, serif",
           fontWeight: 600, fontSize: 17,
           padding: '14px 28px',

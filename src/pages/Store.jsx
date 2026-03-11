@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import { PRODUCTS, STORE_CATEGORIES } from '../data';
 
-const GREEN    = '#1C3A2A';
+const ROSE     = '#8B3A52';
 const GOLD     = '#C9A84C';
-const CREAM    = '#F7F2E8';
+const CREAM    = '#FDF6F0';
+const DEEP     = '#3D1A26';
 const BURGUNDY = '#5C1A2A';
 
 function ProductCard({ product, addToCart }) {
@@ -19,8 +20,8 @@ function ProductCard({ product, addToCart }) {
   return (
     <div style={{
       background: '#fff',
-      border: `1px solid ${GREEN}20`,
-      borderTop: `4px solid ${GREEN}`,
+      border: `1px solid ${ROSE}18`,
+      borderTop: `4px solid ${ROSE}`,
       display: 'flex', flexDirection: 'column',
       position: 'relative',
     }}>
@@ -41,7 +42,7 @@ function ProductCard({ product, addToCart }) {
         <h3 style={{
           fontFamily: "'Playfair Display', Georgia, serif",
           fontWeight: 700, fontSize: 19,
-          color: GREEN, margin: '0 0 10px', lineHeight: 1.25,
+          color: ROSE, margin: '0 0 10px', lineHeight: 1.25,
           paddingRight: product.badge ? 80 : 0,
         }}>
           {product.name}
@@ -56,7 +57,7 @@ function ProductCard({ product, addToCart }) {
         <div style={{
           fontFamily: "'Playfair Display', Georgia, serif",
           fontWeight: 700, fontSize: 28,
-          color: GREEN,
+          color: ROSE,
         }}>
           ${product.price.toFixed(2)}
         </div>
@@ -64,14 +65,14 @@ function ProductCard({ product, addToCart }) {
 
       {/* Add controls */}
       <div style={{ padding: '0 24px 24px', display: 'flex', gap: 10, alignItems: 'center' }}>
-        <div style={{ display: 'flex', alignItems: 'center', border: `2px solid ${GREEN}33` }}>
+        <div style={{ display: 'flex', alignItems: 'center', border: `2px solid ${ROSE}30` }}>
           <button onClick={() => setQty(q => Math.max(1, q - 1))}
-            style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '6px 12px', fontSize: 18, color: GREEN }}>−</button>
-          <span style={{ fontFamily: "'Lora', serif", fontWeight: 600, fontSize: 16, padding: '0 8px', color: GREEN, minWidth: 28, textAlign: 'center' }}>
+            style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '6px 12px', fontSize: 18, color: ROSE }}>−</button>
+          <span style={{ fontFamily: "'Lora', serif", fontWeight: 600, fontSize: 16, padding: '0 8px', color: ROSE, minWidth: 28, textAlign: 'center' }}>
             {qty}
           </span>
           <button onClick={() => setQty(q => q + 1)}
-            style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '6px 12px', fontSize: 18, color: GREEN }}>+</button>
+            style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '6px 12px', fontSize: 18, color: ROSE }}>+</button>
         </div>
         <button onClick={handleAdd}
           style={{
@@ -79,7 +80,7 @@ function ProductCard({ product, addToCart }) {
             fontFamily: "'Lora', Georgia, serif",
             fontWeight: 600, fontSize: 13,
             letterSpacing: '0.06em', textTransform: 'uppercase',
-            background: added ? '#3a7d5a' : GREEN,
+            background: added ? '#a05070' : ROSE,
             color: '#fff', border: 'none',
             padding: '10px 0', cursor: 'pointer',
             borderRadius: 40,
@@ -107,13 +108,19 @@ export default function Store({ addToCart }) {
   return (
     <div style={{ background: CREAM, paddingTop: 72 }}>
       {/* Page header */}
-      <div style={{ background: GREEN, padding: '52px 32px 44px', borderBottom: `4px solid ${GOLD}` }}>
+      <div style={{ background: DEEP, padding: '52px 32px 44px', borderBottom: `4px solid ${GOLD}` }}>
         <div style={{ maxWidth: 1280, margin: '0 auto' }}>
-          <div style={{ fontFamily: "'Lora', Georgia, serif", fontWeight: 600, fontSize: 12, letterSpacing: '0.18em', textTransform: 'uppercase', color: GOLD, marginBottom: 10 }}>
+          <div style={{
+            display: 'inline-block',
+            fontFamily: "'Lora', Georgia, serif", fontWeight: 600, fontSize: 12, letterSpacing: '0.18em', textTransform: 'uppercase',
+            color: GOLD, marginBottom: 10,
+            background: 'rgba(201,168,76,0.15)', padding: '4px 14px',
+          }}>
             Official NMJL Shop
           </div>
+          <div style={{ color: 'rgba(253,246,240,0.45)', fontSize: 12, letterSpacing: 6, margin: '6px 0 8px' }}>— ✦ —</div>
           <h1 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 900, fontSize: 'clamp(32px, 5vw, 56px)', color: '#fff', margin: 0 }}>
-            The Store
+            The <em style={{ fontStyle: 'italic' }}>Store</em>
           </h1>
         </div>
       </div>
@@ -123,8 +130,8 @@ export default function Store({ addToCart }) {
         <div style={{ maxWidth: 1280, margin: '0 auto', padding: '40px 32px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 28 }}>
             <div style={{ width: 4, height: 32, background: GOLD }} />
-            <h2 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 700, fontSize: 26, color: GREEN, margin: 0 }}>
-              2026 Rule Cards
+            <h2 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 700, fontSize: 26, color: ROSE, margin: 0 }}>
+              2026 <em style={{ fontStyle: 'italic' }}>Rule Cards</em>
             </h2>
             <div style={{ fontFamily: "'Lora', serif", fontSize: 14, color: '#888', fontStyle: 'italic' }}>
               — Ships April 2026
@@ -151,14 +158,14 @@ export default function Store({ addToCart }) {
                   <button onClick={() => setActiveCat(cat)} style={{
                     display: 'flex', justifyContent: 'space-between', alignItems: 'center',
                     width: '100%', textAlign: 'left',
-                    background: 'none', border: 'none',
+                    background: active ? `${ROSE}08` : 'none', border: 'none',
                     borderLeft: active ? `3px solid ${GOLD}` : '3px solid transparent',
                     padding: '11px 14px',
                     cursor: 'pointer',
                     fontFamily: "'Lora', Georgia, serif",
                     fontWeight: active ? 600 : 400, fontSize: 17,
-                    color: active ? GREEN : '#555',
-                    transition: 'color 0.2s, border-color 0.2s',
+                    color: active ? ROSE : '#555',
+                    transition: 'color 0.2s, border-color 0.2s, background 0.2s',
                   }}>
                     <span>{cat}</span>
                     <span style={{ fontSize: 13, color: '#aaa', fontWeight: 400 }}>{countFor(cat)}</span>
@@ -169,13 +176,13 @@ export default function Store({ addToCart }) {
           </ul>
 
           {/* Mail order info */}
-          <div style={{ marginTop: 36, borderTop: `1px solid ${GREEN}20`, paddingTop: 24 }}>
+          <div style={{ marginTop: 36, borderTop: `1px solid ${ROSE}18`, paddingTop: 24 }}>
             <div style={{ fontFamily: "'Lora', Georgia, serif", fontWeight: 600, fontSize: 12, letterSpacing: '0.14em', textTransform: 'uppercase', color: '#999', marginBottom: 12 }}>
               Mail Orders
             </div>
             <p style={{ fontFamily: "'Lora', serif", fontSize: 15, lineHeight: 1.7, color: '#666', margin: 0 }}>
               Send check to:<br />
-              <strong style={{ color: GREEN }}>NMJL</strong><br />
+              <strong style={{ color: ROSE }}>NMJL</strong><br />
               PO Box 50003<br />
               Newark NJ 07101-8006
             </p>
@@ -186,7 +193,7 @@ export default function Store({ addToCart }) {
         <div style={{ flex: 1 }}>
           <div style={{ fontFamily: "'Lora', serif", fontSize: 15, color: '#888', marginBottom: 24 }}>
             Showing {filtered.length} {filtered.length === 1 ? 'item' : 'items'}
-            {activeCat !== 'All' && <span style={{ color: GREEN, fontWeight: 600 }}> in {activeCat}</span>}
+            {activeCat !== 'All' && <span style={{ color: ROSE, fontWeight: 600 }}> in {activeCat}</span>}
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', gap: 2 }}>
             {filtered.map(p => <ProductCard key={p.id} product={p} addToCart={addToCart} />)}

@@ -1,9 +1,10 @@
 import { Link } from 'react-router-dom';
 import { CHARITIES } from '../data';
 
-const GREEN = '#1C3A2A';
-const GOLD  = '#C9A84C';
-const CREAM = '#F7F2E8';
+const ROSE = '#8B3A52';
+const GOLD = '#C9A84C';
+const CREAM = '#FDF6F0';
+const DEEP  = '#3D1A26';
 
 // Split charities into 3 columns
 const col = Math.ceil(CHARITIES.length / 3);
@@ -21,13 +22,19 @@ export default function Charity() {
         backgroundPosition: 'center',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
       }}>
-        <div style={{ position: 'absolute', inset: 0, background: 'rgba(15,28,20,0.65)' }} />
+        <div style={{ position: 'absolute', inset: 0, background: 'rgba(42,10,22,0.65)' }} />
         <div style={{ position: 'relative', textAlign: 'center', padding: '0 24px' }}>
-          <div style={{ fontFamily: "'Lora', Georgia, serif", fontWeight: 600, fontSize: 12, letterSpacing: '0.2em', textTransform: 'uppercase', color: GOLD, marginBottom: 18 }}>
+          <div style={{
+            display: 'inline-block',
+            fontFamily: "'Lora', Georgia, serif", fontWeight: 600, fontSize: 12, letterSpacing: '0.2em', textTransform: 'uppercase',
+            color: GOLD, marginBottom: 18,
+            background: 'rgba(201,168,76,0.15)', padding: '4px 16px',
+          }}>
             Giving Back
           </div>
+          <div style={{ color: 'rgba(253,246,240,0.45)', fontSize: 12, letterSpacing: 6, margin: '6px 0 14px' }}>— ✦ —</div>
           <h1 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 900, fontSize: 'clamp(36px, 6vw, 72px)', color: '#fff', margin: '0 0 20px', lineHeight: 1.1 }}>
-            Charitable Giving
+            Charitable <em style={{ fontStyle: 'italic' }}>Giving</em>
           </h1>
           <p style={{ fontFamily: "'Lora', Georgia, serif", fontSize: 20, color: 'rgba(255,255,255,0.85)', margin: 0, lineHeight: 1.6 }}>
             Every card sold supports organizations that change lives.
@@ -43,9 +50,14 @@ export default function Charity() {
       </section>
 
       {/* $3M callout */}
-      <div style={{ background: GREEN, padding: '64px 32px', borderTop: `4px solid ${GOLD}`, borderBottom: `4px solid ${GOLD}` }}>
+      <div style={{ background: DEEP, padding: '64px 32px', borderTop: `4px solid ${GOLD}`, borderBottom: `4px solid ${GOLD}` }}>
         <div style={{ maxWidth: 900, margin: '0 auto', textAlign: 'center' }}>
-          <div style={{ fontFamily: "'Lora', Georgia, serif", fontWeight: 600, fontSize: 13, letterSpacing: '0.2em', textTransform: 'uppercase', color: GOLD, marginBottom: 20 }}>
+          <div style={{
+            display: 'inline-block',
+            fontFamily: "'Lora', Georgia, serif", fontWeight: 600, fontSize: 13, letterSpacing: '0.2em', textTransform: 'uppercase',
+            color: GOLD, marginBottom: 20,
+            background: 'rgba(201,168,76,0.15)', padding: '4px 16px',
+          }}>
             Landmark Milestone
           </div>
           <div style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 900, fontSize: 'clamp(64px, 10vw, 120px)', color: GOLD, lineHeight: 1, marginBottom: 20 }}>
@@ -54,7 +66,7 @@ export default function Charity() {
           <h2 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 700, fontSize: 28, color: '#fff', margin: '0 0 20px' }}>
             Donated to Valley Hospital
           </h2>
-          <p style={{ fontFamily: "'Lora', Georgia, serif", fontSize: 18, lineHeight: 1.8, color: 'rgba(247,242,232,0.8)', margin: 0, maxWidth: 640, marginLeft: 'auto', marginRight: 'auto' }}>
+          <p style={{ fontFamily: "'Lora', Georgia, serif", fontSize: 18, lineHeight: 1.8, color: 'rgba(253,246,240,0.8)', margin: 0, maxWidth: 640, marginLeft: 'auto', marginRight: 'auto' }}>
             The League reached a historic milestone with a $3 million cumulative donation to Valley Hospital in Ridgewood, New Jersey — a testament to the generosity of Mah Jongg players everywhere.
           </p>
         </div>
@@ -63,11 +75,17 @@ export default function Charity() {
       {/* Charity list */}
       <section style={{ maxWidth: 1100, margin: '0 auto', padding: '72px 32px' }}>
         <div style={{ textAlign: 'center', marginBottom: 52 }}>
-          <div style={{ fontFamily: "'Lora', Georgia, serif", fontWeight: 600, fontSize: 12, letterSpacing: '0.2em', textTransform: 'uppercase', color: GOLD, marginBottom: 12 }}>
+          <div style={{
+            display: 'inline-block',
+            fontFamily: "'Lora', Georgia, serif", fontWeight: 600, fontSize: 12, letterSpacing: '0.2em', textTransform: 'uppercase',
+            color: GOLD, marginBottom: 6,
+            background: `${ROSE}10`, padding: '4px 16px',
+          }}>
             Our Partners
           </div>
-          <h2 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 900, fontSize: 'clamp(26px, 4vw, 40px)', color: GREEN, margin: 0 }}>
-            28 Organizations We Support
+          <div style={{ color: `${ROSE}50`, fontSize: 12, letterSpacing: 6, margin: '6px 0' }}>— ✦ —</div>
+          <h2 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 900, fontSize: 'clamp(26px, 4vw, 40px)', color: ROSE, margin: 0 }}>
+            28 Organizations <em style={{ fontStyle: 'italic' }}>We Support</em>
           </h2>
         </div>
 
@@ -80,7 +98,7 @@ export default function Charity() {
                   fontSize: 17, lineHeight: 1.5,
                   color: '#444',
                   padding: '12px 0',
-                  borderBottom: `1px solid ${GREEN}15`,
+                  borderBottom: `1px solid ${ROSE}12`,
                   display: 'flex', alignItems: 'center', gap: 12,
                 }}>
                   <span style={{ color: GOLD, fontSize: 14, flexShrink: 0 }}>♦</span>
@@ -93,11 +111,11 @@ export default function Charity() {
       </section>
 
       {/* Bottom CTA */}
-      <section style={{ background: `${GREEN}08`, borderTop: `3px solid ${GREEN}20`, padding: '64px 32px', textAlign: 'center' }}>
+      <section style={{ background: `${ROSE}06`, borderTop: `3px solid ${ROSE}18`, padding: '64px 32px', textAlign: 'center' }}>
         <div style={{ maxWidth: 640, margin: '0 auto' }}>
-          <div style={{ fontSize: 20, letterSpacing: 8, marginBottom: 28, color: `${GREEN}60` }}>🀇 🀙 🀠</div>
-          <h2 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 900, fontSize: 32, color: GREEN, margin: '0 0 20px' }}>
-            Play the Game. Support the Cause.
+          <div style={{ fontSize: 20, letterSpacing: 8, marginBottom: 28, color: `${ROSE}50` }}>🀇 🀙 🀠</div>
+          <h2 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 900, fontSize: 32, color: ROSE, margin: '0 0 20px' }}>
+            Play the Game. <em style={{ fontStyle: 'italic' }}>Support the Cause.</em>
           </h2>
           <p style={{ fontFamily: "'Lora', Georgia, serif", fontSize: 18, lineHeight: 1.8, color: '#555', margin: '0 0 32px' }}>
             Every 2026 rule card you purchase directly supports the League's charitable mission. Order yours today.
@@ -107,8 +125,8 @@ export default function Charity() {
             fontFamily: "'Lora', Georgia, serif",
             fontWeight: 600, fontSize: 16,
             letterSpacing: '0.07em', textTransform: 'uppercase',
-            color: '#fff', background: GREEN,
-            border: `2px solid ${GREEN}`,
+            color: '#fff', background: ROSE,
+            border: `2px solid ${ROSE}`,
             borderRadius: 40, padding: '14px 36px',
             textDecoration: 'none',
             transition: 'background 0.2s',

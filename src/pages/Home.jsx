@@ -2,9 +2,11 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { HERO_IMAGES, PRODUCTS } from '../data';
 
-const GREEN    = '#1C3A2A';
+const ROSE     = '#8B3A52';
+const DUSTY    = '#C4758A';
 const GOLD     = '#C9A84C';
-const CREAM    = '#F7F2E8';
+const CREAM    = '#FDF6F0';
+const DEEP     = '#3D1A26';
 const BURGUNDY = '#5C1A2A';
 
 const cards2026 = PRODUCTS.filter(p => p.badge === 'New 2026');
@@ -46,8 +48,8 @@ export default function Home({ addToCart }) {
             transition: 'opacity 1.2s ease-in-out',
           }} />
         ))}
-        {/* Dark overlay */}
-        <div style={{ position: 'absolute', inset: 0, background: 'rgba(15,28,20,0.62)' }} />
+        {/* Dark overlay — warm rose-dark */}
+        <div style={{ position: 'absolute', inset: 0, background: 'rgba(42,10,22,0.62)' }} />
 
         {/* Hero content */}
         <div style={{ position: 'relative', textAlign: 'center', padding: '0 24px', maxWidth: 760 }}>
@@ -101,7 +103,7 @@ export default function Home({ addToCart }) {
 
       {/* ── ANNOUNCEMENT BAR ──────────────────────────────────────── */}
       <div style={{
-        background: GREEN, color: CREAM,
+        background: ROSE, color: '#fff',
         textAlign: 'center', padding: '18px 24px',
         borderBottom: `3px solid ${GOLD}`,
       }}>
@@ -120,34 +122,38 @@ export default function Home({ addToCart }) {
       <section style={{ padding: '80px 32px', maxWidth: 1280, margin: '0 auto' }}>
         {/* Editorial header */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 24, marginBottom: 48 }}>
-          <div style={{ flex: 1, height: 1, background: `${GREEN}30` }} />
+          <div style={{ flex: 1, height: 1, background: `${ROSE}25` }} />
           <div style={{ textAlign: 'center' }}>
             <div style={{
+              display: 'inline-block',
               fontFamily: "'Lora', Georgia, serif",
               fontWeight: 600, fontSize: 12,
               letterSpacing: '0.2em', textTransform: 'uppercase',
-              color: GOLD, marginBottom: 8,
+              color: GOLD, marginBottom: 6,
+              background: `${ROSE}10`,
+              padding: '4px 16px',
             }}>
               New This Year
             </div>
+            <div style={{ color: `${ROSE}50`, fontSize: 12, letterSpacing: 6, margin: '6px 0' }}>— ✦ —</div>
             <h2 style={{
               fontFamily: "'Playfair Display', Georgia, serif",
               fontWeight: 900, fontSize: 'clamp(28px, 4vw, 44px)',
-              color: GREEN, margin: 0,
+              color: ROSE, margin: 0,
             }}>
-              2026 Official Rule Cards
+              2026 Official <em style={{ fontStyle: 'italic' }}>Rule Cards</em>
             </h2>
           </div>
-          <div style={{ flex: 1, height: 1, background: `${GREEN}30` }} />
+          <div style={{ flex: 1, height: 1, background: `${ROSE}25` }} />
         </div>
 
         {/* Card grid */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 2 }}>
           {cards2026.map((card, idx) => (
             <div key={card.id} style={{
-              background: idx === 2 ? GREEN : '#fff',
-              border: `2px solid ${idx === 2 ? GOLD : `${GREEN}22`}`,
-              borderTop: `5px solid ${idx === 2 ? GOLD : GREEN}`,
+              background: idx === 2 ? DEEP : '#fff',
+              border: `2px solid ${idx === 2 ? GOLD : `${ROSE}20`}`,
+              borderTop: `5px solid ${idx === 2 ? GOLD : ROSE}`,
               padding: '36px 28px',
               position: 'relative',
             }}>
@@ -165,7 +171,7 @@ export default function Home({ addToCart }) {
               <h3 style={{
                 fontFamily: "'Playfair Display', Georgia, serif",
                 fontWeight: 700, fontSize: 22,
-                color: idx === 2 ? '#fff' : GREEN,
+                color: idx === 2 ? '#fff' : ROSE,
                 margin: '0 0 10px', lineHeight: 1.2,
               }}>
                 {card.name}
@@ -173,7 +179,7 @@ export default function Home({ addToCart }) {
               <p style={{
                 fontFamily: "'Lora', Georgia, serif",
                 fontSize: 16, lineHeight: 1.65,
-                color: idx === 2 ? 'rgba(247,242,232,0.8)' : '#555',
+                color: idx === 2 ? 'rgba(253,246,240,0.8)' : '#555',
                 margin: '0 0 28px',
               }}>
                 {card.desc}
@@ -181,7 +187,7 @@ export default function Home({ addToCart }) {
               <div style={{
                 fontFamily: "'Playfair Display', Georgia, serif",
                 fontWeight: 700, fontSize: 32,
-                color: idx === 2 ? GOLD : GREEN,
+                color: idx === 2 ? GOLD : ROSE,
                 marginBottom: 24,
               }}>
                 ${card.price.toFixed(2)}
@@ -191,17 +197,17 @@ export default function Home({ addToCart }) {
               <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
                 <div style={{
                   display: 'flex', alignItems: 'center',
-                  border: `2px solid ${idx === 2 ? 'rgba(201,168,76,0.5)' : `${GREEN}44`}`,
+                  border: `2px solid ${idx === 2 ? 'rgba(201,168,76,0.5)' : `${ROSE}35`}`,
                 }}>
                   <button onClick={() => setQty(q => ({ ...q, [card.id]: Math.max(1, (q[card.id]||1) - 1) }))}
-                    style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '8px 14px', fontSize: 18, color: idx === 2 ? CREAM : GREEN }}>
+                    style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '8px 14px', fontSize: 18, color: idx === 2 ? '#FDF6F0' : ROSE }}>
                     −
                   </button>
-                  <span style={{ fontFamily: "'Lora', serif", fontWeight: 600, fontSize: 17, padding: '0 10px', color: idx === 2 ? '#fff' : GREEN }}>
+                  <span style={{ fontFamily: "'Lora', serif", fontWeight: 600, fontSize: 17, padding: '0 10px', color: idx === 2 ? '#fff' : ROSE }}>
                     {qty[card.id] || 1}
                   </span>
                   <button onClick={() => setQty(q => ({ ...q, [card.id]: (q[card.id]||1) + 1 }))}
-                    style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '8px 14px', fontSize: 18, color: idx === 2 ? CREAM : GREEN }}>
+                    style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '8px 14px', fontSize: 18, color: idx === 2 ? '#FDF6F0' : ROSE }}>
                     +
                   </button>
                 </div>
@@ -211,7 +217,7 @@ export default function Home({ addToCart }) {
                     fontFamily: "'Lora', Georgia, serif",
                     fontWeight: 600, fontSize: 14,
                     letterSpacing: '0.06em', textTransform: 'uppercase',
-                    background: idx === 2 ? GOLD : GREEN,
+                    background: idx === 2 ? GOLD : ROSE,
                     color: '#fff', border: 'none',
                     padding: '12px 0', cursor: 'pointer',
                     borderRadius: 40,
@@ -226,51 +232,65 @@ export default function Home({ addToCart }) {
       </section>
 
       {/* ── SECTION DIVIDER ───────────────────────────────────────── */}
-      <div style={{ background: `${GREEN}10`, borderTop: `1px solid ${GREEN}20`, borderBottom: `1px solid ${GREEN}20`, padding: '12px 0', textAlign: 'center', letterSpacing: 16, fontSize: 16, color: `${GREEN}60` }}>
+      <div style={{ background: `${ROSE}08`, borderTop: `1px solid ${ROSE}18`, borderBottom: `1px solid ${ROSE}18`, padding: '12px 0', textAlign: 'center', letterSpacing: 16, fontSize: 16, color: `${ROSE}50` }}>
         🀇 &nbsp; 🀈 &nbsp; 🀙 &nbsp; 🀠 &nbsp; 🀅
       </div>
 
       {/* ── NAVIGATION TILES ──────────────────────────────────────── */}
-      <section style={{ padding: '80px 32px', maxWidth: 1280, margin: '0 auto' }}>
-        <div style={{ textAlign: 'center', marginBottom: 52 }}>
-          <div style={{ fontFamily: "'Lora', Georgia, serif", fontWeight: 600, fontSize: 12, letterSpacing: '0.2em', textTransform: 'uppercase', color: GOLD, marginBottom: 12 }}>
-            Everything We Offer
+      <section style={{
+        padding: '80px 32px',
+        background: CREAM,
+        backgroundImage: `radial-gradient(circle, ${ROSE}18 1px, transparent 1px)`,
+        backgroundSize: '22px 22px',
+      }}>
+        <div style={{ maxWidth: 1280, margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: 52 }}>
+            <div style={{
+              display: 'inline-block',
+              fontFamily: "'Lora', Georgia, serif", fontWeight: 600, fontSize: 12, letterSpacing: '0.2em', textTransform: 'uppercase',
+              color: GOLD, marginBottom: 6,
+              background: `${ROSE}10`,
+              padding: '4px 16px',
+            }}>
+              Everything We Offer
+            </div>
+            <div style={{ color: `${ROSE}50`, fontSize: 12, letterSpacing: 6, margin: '6px 0' }}>— ✦ —</div>
+            <h2 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 900, fontSize: 'clamp(26px, 4vw, 40px)', color: ROSE, margin: 0 }}>
+              Explore <em style={{ fontStyle: 'italic' }}>the League</em>
+            </h2>
           </div>
-          <h2 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 900, fontSize: 'clamp(26px, 4vw, 40px)', color: GREEN, margin: 0 }}>
-            Explore the League
-          </h2>
-        </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 1, border: `1px solid ${GREEN}22` }}>
-          {NAV_TILES.map((tile, i) => (
-            <Link key={tile.href} to={tile.href} style={{ textDecoration: 'none' }}>
-              <div style={{
-                padding: '36px 28px',
-                background: '#fff',
-                borderLeft: i % 3 !== 0 ? `1px solid ${GREEN}15` : 'none',
-                borderBottom: i < 3 ? `1px solid ${GREEN}15` : 'none',
-                transition: 'background 0.2s',
-              }}
-                onMouseEnter={e => e.currentTarget.style.background = `${GREEN}08`}
-                onMouseLeave={e => e.currentTarget.style.background = '#fff'}
-              >
-                <div style={{ fontSize: 28, marginBottom: 14 }}>{tile.icon}</div>
-                <h3 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 700, fontSize: 20, color: GREEN, margin: '0 0 8px' }}>
-                  {tile.label}
-                </h3>
-                <p style={{ fontFamily: "'Lora', Georgia, serif", fontSize: 16, color: '#666', margin: 0, lineHeight: 1.5 }}>
-                  {tile.sub}
-                </p>
-                <div style={{ marginTop: 20, fontFamily: "'Lora', serif", fontSize: 14, fontWeight: 600, letterSpacing: '0.06em', textTransform: 'uppercase', color: GOLD }}>
-                  Learn more →
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 1, border: `1px solid ${ROSE}18` }}>
+            {NAV_TILES.map((tile, i) => (
+              <Link key={tile.href} to={tile.href} style={{ textDecoration: 'none' }}>
+                <div style={{
+                  padding: '36px 28px',
+                  background: '#fff',
+                  borderLeft: i % 3 !== 0 ? `1px solid ${ROSE}12` : 'none',
+                  borderBottom: i < 3 ? `1px solid ${ROSE}12` : 'none',
+                  transition: 'background 0.2s',
+                }}
+                  onMouseEnter={e => e.currentTarget.style.background = `${ROSE}06`}
+                  onMouseLeave={e => e.currentTarget.style.background = '#fff'}
+                >
+                  <div style={{ fontSize: 28, marginBottom: 14 }}>{tile.icon}</div>
+                  <h3 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 700, fontSize: 20, color: ROSE, margin: '0 0 8px' }}>
+                    {tile.label}
+                  </h3>
+                  <p style={{ fontFamily: "'Lora', Georgia, serif", fontSize: 16, color: '#666', margin: 0, lineHeight: 1.5 }}>
+                    {tile.sub}
+                  </p>
+                  <div style={{ marginTop: 20, fontFamily: "'Lora', serif", fontSize: 14, fontWeight: 600, letterSpacing: '0.06em', textTransform: 'uppercase', color: GOLD }}>
+                    Learn more →
+                  </div>
                 </div>
-              </div>
-            </Link>
-          ))}
+              </Link>
+            ))}
+          </div>
         </div>
       </section>
 
       {/* ── FOOTER TRUTHS BAND ────────────────────────────────────── */}
-      <section style={{ background: GREEN, padding: '64px 32px' }}>
+      <section style={{ background: DEEP, padding: '64px 32px' }}>
         <div style={{ maxWidth: 1280, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 40 }}>
           {[
             { num: '350,000+', label: 'Active Members', sub: 'Across North America and beyond' },
@@ -284,7 +304,7 @@ export default function Home({ addToCart }) {
               <div style={{ fontFamily: "'Lora', Georgia, serif", fontWeight: 600, fontSize: 18, color: '#fff', margin: '10px 0 6px', letterSpacing: '0.03em' }}>
                 {fact.label}
               </div>
-              <div style={{ fontFamily: "'Lora', Georgia, serif", fontSize: 15, color: 'rgba(247,242,232,0.6)' }}>
+              <div style={{ fontFamily: "'Lora', Georgia, serif", fontSize: 15, color: 'rgba(253,246,240,0.6)' }}>
                 {fact.sub}
               </div>
             </div>

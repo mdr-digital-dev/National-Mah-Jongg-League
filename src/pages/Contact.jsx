@@ -1,8 +1,9 @@
 import { useState } from 'react';
 
-const GREEN = '#1C3A2A';
-const GOLD  = '#C9A84C';
-const CREAM = '#F7F2E8';
+const ROSE = '#8B3A52';
+const GOLD = '#C9A84C';
+const CREAM = '#FDF6F0';
+const DEEP  = '#3D1A26';
 
 export default function Contact() {
   const [form, setForm] = useState({ name: '', email: '', subject: '', message: '' });
@@ -19,7 +20,7 @@ export default function Contact() {
     fontFamily: "'Lora', Georgia, serif",
     fontWeight: 600, fontSize: 14,
     letterSpacing: '0.08em', textTransform: 'uppercase',
-    color: GREEN, marginBottom: 8,
+    color: ROSE, marginBottom: 8,
   };
 
   const inputStyle = {
@@ -27,8 +28,8 @@ export default function Contact() {
     fontFamily: "'Lora', Georgia, serif",
     fontSize: 17, color: '#333',
     background: '#fff',
-    border: `1px solid ${GREEN}33`,
-    borderBottom: `2px solid ${GREEN}55`,
+    border: `1px solid ${ROSE}28`,
+    borderBottom: `2px solid ${ROSE}50`,
     padding: '12px 16px',
     outline: 'none',
     boxSizing: 'border-box',
@@ -39,13 +40,19 @@ export default function Contact() {
   return (
     <div style={{ background: CREAM, paddingTop: 72 }}>
       {/* Header */}
-      <div style={{ background: GREEN, padding: '52px 32px 44px', borderBottom: `4px solid ${GOLD}` }}>
+      <div style={{ background: DEEP, padding: '52px 32px 44px', borderBottom: `4px solid ${GOLD}` }}>
         <div style={{ maxWidth: 1280, margin: '0 auto' }}>
-          <div style={{ fontFamily: "'Lora', Georgia, serif", fontWeight: 600, fontSize: 12, letterSpacing: '0.18em', textTransform: 'uppercase', color: GOLD, marginBottom: 10 }}>
+          <div style={{
+            display: 'inline-block',
+            fontFamily: "'Lora', Georgia, serif", fontWeight: 600, fontSize: 12, letterSpacing: '0.18em', textTransform: 'uppercase',
+            color: GOLD, marginBottom: 10,
+            background: 'rgba(201,168,76,0.15)', padding: '4px 14px',
+          }}>
             Reach Out
           </div>
+          <div style={{ color: 'rgba(253,246,240,0.45)', fontSize: 12, letterSpacing: 6, margin: '6px 0 8px' }}>— ✦ —</div>
           <h1 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 900, fontSize: 'clamp(32px, 5vw, 56px)', color: '#fff', margin: 0 }}>
-            Contact Us
+            Contact <em style={{ fontStyle: 'italic' }}>Us</em>
           </h1>
         </div>
       </div>
@@ -53,8 +60,8 @@ export default function Contact() {
       <div style={{ maxWidth: 1100, margin: '0 auto', padding: '72px 32px', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 64 }}>
         {/* Contact info */}
         <div>
-          <h2 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 700, fontSize: 28, color: GREEN, margin: '0 0 32px' }}>
-            Get in Touch
+          <h2 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 700, fontSize: 28, color: ROSE, margin: '0 0 32px' }}>
+            Get in <em style={{ fontStyle: 'italic' }}>Touch</em>
           </h2>
 
           {[
@@ -62,7 +69,7 @@ export default function Contact() {
               label: 'Phone',
               icon: '☎',
               content: (
-                <a href="tel:+12122463052" style={{ color: GREEN, textDecoration: 'none', fontWeight: 600, fontSize: 18, fontFamily: "'Lora', serif" }}>
+                <a href="tel:+12122463052" style={{ color: ROSE, textDecoration: 'none', fontWeight: 600, fontSize: 18, fontFamily: "'Lora', serif" }}>
                   (212) 246-3052
                 </a>
               ),
@@ -91,12 +98,12 @@ export default function Contact() {
           ].map(item => (
             <div key={item.label} style={{
               display: 'flex', gap: 20, marginBottom: 36,
-              paddingBottom: 36, borderBottom: `1px solid ${GREEN}18`,
+              paddingBottom: 36, borderBottom: `1px solid ${ROSE}15`,
             }}>
               <div style={{
                 flexShrink: 0, width: 44, height: 44,
-                background: `${GREEN}10`,
-                border: `1px solid ${GREEN}25`,
+                background: `${ROSE}10`,
+                border: `1px solid ${ROSE}22`,
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 fontSize: 20,
               }}>
@@ -111,30 +118,30 @@ export default function Contact() {
             </div>
           ))}
 
-          <div style={{ padding: '24px', background: `${GREEN}08`, borderLeft: `4px solid ${GOLD}` }}>
+          <div style={{ padding: '24px', background: `${ROSE}06`, borderLeft: `4px solid ${GOLD}` }}>
             <p style={{ fontFamily: "'Lora', Georgia, serif", fontSize: 16, lineHeight: 1.7, color: '#555', margin: 0 }}>
-              <strong style={{ color: GREEN }}>Rules questions:</strong> Please include a self-addressed stamped envelope with any written correspondence requesting a reply.
+              <strong style={{ color: ROSE }}>Rules questions:</strong> Please include a self-addressed stamped envelope with any written correspondence requesting a reply.
             </p>
           </div>
         </div>
 
         {/* Contact form */}
         <div>
-          <h2 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 700, fontSize: 28, color: GREEN, margin: '0 0 32px' }}>
-            Send a Message
+          <h2 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 700, fontSize: 28, color: ROSE, margin: '0 0 32px' }}>
+            Send <em style={{ fontStyle: 'italic' }}>a Message</em>
           </h2>
 
           {sent ? (
-            <div style={{ background: `${GREEN}10`, border: `2px solid ${GREEN}`, padding: '32px 28px' }}>
+            <div style={{ background: `${ROSE}08`, border: `2px solid ${ROSE}`, padding: '32px 28px' }}>
               <div style={{ fontSize: 32, marginBottom: 16 }}>✓</div>
-              <h3 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 700, fontSize: 22, color: GREEN, margin: '0 0 12px' }}>
+              <h3 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 700, fontSize: 22, color: ROSE, margin: '0 0 12px' }}>
                 Message Sent
               </h3>
               <p style={{ fontFamily: "'Lora', serif", fontSize: 17, color: '#555', margin: 0, lineHeight: 1.7 }}>
                 Thank you for reaching out. We'll get back to you as soon as possible.
               </p>
               <button onClick={() => setSent(false)}
-                style={{ marginTop: 24, fontFamily: "'Lora', serif", fontWeight: 600, fontSize: 14, letterSpacing: '0.06em', textTransform: 'uppercase', color: GREEN, background: 'none', border: `2px solid ${GREEN}`, padding: '10px 24px', cursor: 'pointer', borderRadius: 40 }}>
+                style={{ marginTop: 24, fontFamily: "'Lora', serif", fontWeight: 600, fontSize: 14, letterSpacing: '0.06em', textTransform: 'uppercase', color: ROSE, background: 'none', border: `2px solid ${ROSE}`, padding: '10px 24px', cursor: 'pointer', borderRadius: 40 }}>
                 Send Another
               </button>
             </div>
@@ -166,8 +173,8 @@ export default function Contact() {
                   fontFamily: "'Lora', Georgia, serif",
                   fontWeight: 600, fontSize: 15,
                   letterSpacing: '0.07em', textTransform: 'uppercase',
-                  color: '#fff', background: GREEN,
-                  border: `2px solid ${GREEN}`,
+                  color: '#fff', background: ROSE,
+                  border: `2px solid ${ROSE}`,
                   borderRadius: 40, padding: '14px 36px',
                   cursor: 'pointer',
                   transition: 'background 0.2s',
