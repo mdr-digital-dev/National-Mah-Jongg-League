@@ -23,8 +23,11 @@ export default function Layout({ children, cart, onUpdateQty, onRemove }) {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  // Close menu on route change
-  useEffect(() => { setMenuOpen(false); }, [location.pathname]);
+  // Close menu and scroll to top on route change
+  useEffect(() => {
+    setMenuOpen(false);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [location.pathname]);
 
   const solidNav = scrolled || !isHome;
 
@@ -68,9 +71,11 @@ export default function Layout({ children, cart, onUpdateQty, onRemove }) {
                     className="px-4 py-2 rounded-lg font-bold transition-colors no-underline"
                     style={{
                       fontSize: '15px',
-                      color: solidNav ? (active ? GREEN : '#2a2a2a') : 'white',
+                      color: solidNav ? (active ? GREEN : '#2a2a2a') : (active ? '#86efac' : 'white'),
+                      background: active && solidNav ? 'rgba(26,92,58,0.09)' : 'transparent',
                       textDecoration: active ? 'underline' : 'none',
-                      textDecorationColor: GOLD,
+                      textDecorationColor: active ? GREEN : 'transparent',
+                      textDecorationThickness: '2px',
                       textUnderlineOffset: '4px',
                     }}
                   >
@@ -141,7 +146,7 @@ export default function Layout({ children, cart, onUpdateQty, onRemove }) {
       {/* ── FOOTER ── */}
       <footer style={{ background: '#0a1a0f', padding: '56px 24px 32px' }}>
         <div className="max-w-7xl mx-auto text-white">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-10">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-10">
             <div className="sm:col-span-2 lg:col-span-1">
               <div className="flex items-center gap-3 mb-4">
                 <img src="https://www.nationalmahjonggleague.org/images/rsz_1rsz_1rsz_mahjong.png" alt="NMJL" style={{ height: '40px' }} onError={e => { e.target.style.display = 'none'; }} />
@@ -157,14 +162,6 @@ export default function Layout({ children, cart, onUpdateQty, onRemove }) {
               <div className="space-y-3">
                 {NAV_LINKS.map(l => (
                   <Link key={l.href} to={l.href} className="block font-medium no-underline hover:text-white transition-colors" style={{ fontSize: '17px', color: 'rgba(255,255,255,0.65)' }}>{l.label}</Link>
-                ))}
-              </div>
-            </div>
-            <div>
-              <div style={{ fontSize: '12px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.4)', marginBottom: '16px' }}>Store</div>
-              <div className="space-y-3">
-                {['Rule Cards', 'Tiles & Sets', 'Accessories', 'Apparel', 'Books'].map(cat => (
-                  <Link key={cat} to={`/store?cat=${encodeURIComponent(cat)}`} className="block font-medium no-underline hover:text-white transition-colors" style={{ fontSize: '17px', color: 'rgba(255,255,255,0.65)' }}>{cat}</Link>
                 ))}
               </div>
             </div>

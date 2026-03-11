@@ -4,7 +4,7 @@ import { Minus, Plus, Check, ShoppingCart } from 'lucide-react';
 import { PRODUCTS, STORE_CATEGORIES, GREEN, DARK } from '../data';
 
 // ── Single product row ──────────────────────────────────────────────────────
-function ProductRow({ product, onAdd }) {
+function ProductRow({ product, onAdd, isEven }) {
   const [qty, setQty] = useState(1);
   const [added, setAdded] = useState(false);
 
@@ -21,7 +21,7 @@ function ProductRow({ product, onAdd }) {
   const bs = product.badge ? badgeStyle[product.badge] : null;
 
   return (
-    <div className="flex flex-col sm:flex-row sm:items-center gap-4 py-5 border-b-2 border-stone-200 last:border-0">
+    <div className="flex flex-col sm:flex-row sm:items-center gap-4 py-4 px-6 border-b border-stone-200 last:border-0" style={{ background: isEven ? '#fff' : '#f8f8f6' }}>
       {/* Left: name + desc */}
       <div className="flex-1 min-w-0">
         <div className="flex flex-wrap items-center gap-2 mb-1">
@@ -32,7 +32,7 @@ function ProductRow({ product, onAdd }) {
             </span>
           )}
         </div>
-        <p style={{ fontSize: '16px', color: '#555', lineHeight: '1.55' }}>{product.desc}</p>
+        <p style={{ fontSize: '17px', color: '#555', lineHeight: '1.55' }}>{product.desc}</p>
       </div>
 
       {/* Right: price + qty + button */}
@@ -44,9 +44,9 @@ function ProductRow({ product, onAdd }) {
 
         {/* Qty */}
         <div className="flex items-center gap-2">
-          <button onClick={() => setQty(q => Math.max(1, q - 1))} className="flex items-center justify-center rounded-lg border-2 border-stone-300 font-bold hover:bg-stone-100 transition-colors" style={{ width: '44px', height: '44px' }} aria-label="Decrease"><Minus size={16} strokeWidth={2.5} /></button>
+          <button onClick={() => setQty(q => Math.max(1, q - 1))} className="flex items-center justify-center rounded-lg border-2 border-stone-300 font-bold hover:bg-stone-100 transition-colors" style={{ width: '48px', height: '48px' }} aria-label="Decrease"><Minus size={16} strokeWidth={2.5} /></button>
           <span className="font-bold text-center" style={{ width: '30px', fontSize: '18px' }}>{qty}</span>
-          <button onClick={() => setQty(q => q + 1)} className="flex items-center justify-center rounded-lg border-2 border-stone-300 font-bold hover:bg-stone-100 transition-colors" style={{ width: '44px', height: '44px' }} aria-label="Increase"><Plus size={16} strokeWidth={2.5} /></button>
+          <button onClick={() => setQty(q => q + 1)} className="flex items-center justify-center rounded-lg border-2 border-stone-300 font-bold hover:bg-stone-100 transition-colors" style={{ width: '48px', height: '48px' }} aria-label="Increase"><Plus size={16} strokeWidth={2.5} /></button>
         </div>
 
         {/* Add button */}
@@ -152,10 +152,28 @@ export default function Store({ onAdd }) {
               </span>
             </div>
 
-            {/* Product rows */}
-            <div className="bg-white rounded-2xl border-2 border-stone-200 px-6 divide-y-0">
-              {filtered.map(p => (
-                <ProductRow key={p.id} product={p} onAdd={onAdd} />
+            {/* 2026 Card spotlight */}
+            {(activeCat === 'All' || activeCat === 'Rule Cards') && (
+              <div className="rounded-2xl border-2 p-6 mb-5" style={{ background: '#fffbf0', borderColor: '#b8960c' }}>
+                <div className="flex items-center gap-3 mb-1">
+                  <span className="font-bold px-3 py-1 rounded-full text-white" style={{ background: '#b8960c', fontSize: '13px' }}>NEW FOR 2026</span>
+                  <h3 style={{ fontFamily: 'Georgia, serif', fontSize: '20px', fontWeight: 700, color: DARK }}>2026 Official Rule Cards</h3>
+                </div>
+                <p style={{ fontSize: '16px', color: '#666', marginBottom: '16px' }}>Ships beginning of April — order now to reserve yours.</p>
+                <div className="divide-y divide-amber-200">
+                  {PRODUCTS.filter(p => [1, 2, 25].includes(p.id)).map((p, idx) => (
+                    <ProductRow key={p.id} product={p} onAdd={onAdd} isEven={idx % 2 === 0} />
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* All other products */}
+            <div className="rounded-2xl border-2 border-stone-200 overflow-hidden">
+              {filtered
+                .filter(p => (activeCat === 'All' || activeCat === 'Rule Cards') ? ![1, 2, 25].includes(p.id) : true)
+                .map((p, idx) => (
+                  <ProductRow key={p.id} product={p} onAdd={onAdd} isEven={idx % 2 === 0} />
               ))}
             </div>
           </div>

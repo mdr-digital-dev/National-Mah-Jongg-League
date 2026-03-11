@@ -48,15 +48,42 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── ANNOUNCEMENT ── */}
-      <div style={{ background: GREEN, padding: '20px 24px' }}>
-        <div className="max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-center gap-4 text-white text-center">
-          <p style={{ fontSize: '19px', fontWeight: 600 }}>
-            🀄 &nbsp;<strong>2026 Rule Cards</strong> are available now — ships beginning of April.
-          </p>
-          <Link to="/store" className="font-bold no-underline hover:underline flex-shrink-0" style={{ color: '#d4af37', fontSize: '18px' }}>
-            Order yours →
-          </Link>
+      {/* ── 2026 CARD FEATURED SECTION ── */}
+      <div style={{ background: '#fffbf0', borderTop: '4px solid #b8960c', borderBottom: '4px solid #b8960c', padding: '48px 24px' }}>
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-8">
+            <span className="inline-block font-bold tracking-widest uppercase px-4 py-1 rounded-full mb-3" style={{ background: '#b8960c', color: 'white', fontSize: '13px' }}>Now Available</span>
+            <h2 style={{ fontFamily: 'Georgia, serif', fontSize: 'clamp(1.8rem, 4vw, 2.6rem)', fontWeight: 700, color: '#1a1a1a', marginBottom: '8px' }}>
+              Order Your 2026 Rule Card
+            </h2>
+            <p style={{ fontSize: '19px', color: '#555', maxWidth: '520px', margin: '0 auto' }}>
+              The official NMJL rule card for 2026 is here. Cards ship beginning of April.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 mb-8">
+            {[
+              { name: 'Standard Size',    price: '$14.00', size: '5⅛″ × 4″',       popular: false },
+              { name: 'Large Print',      price: '$15.00', size: '6⅛″ × 4¾″',      popular: true  },
+              { name: 'Mega Card',        price: '$35.00', size: '8.5″ × 11″, 3 panels — ships late March', popular: false },
+            ].map((card, i) => (
+              <div key={i} className="rounded-2xl border-2 p-6 text-center bg-white" style={{ borderColor: card.popular ? '#1a5c3a' : '#d4af37', boxShadow: card.popular ? '0 4px 20px rgba(26,92,58,0.15)' : 'none' }}>
+                {card.popular && <div className="font-bold mb-2" style={{ color: '#1a5c3a', fontSize: '13px', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Most Popular</div>}
+                <div style={{ fontSize: '20px', fontWeight: 700, color: '#1a1a1a', fontFamily: 'Georgia, serif', marginBottom: '4px' }}>2026 Card — {card.name}</div>
+                <div style={{ fontSize: '15px', color: '#666', marginBottom: '12px' }}>{card.size}</div>
+                <div style={{ fontSize: '32px', fontWeight: 700, color: '#1a5c3a', marginBottom: '16px' }}>{card.price}</div>
+                <Link to="/store?cat=Rule%20Cards" className="block rounded-xl font-bold text-white text-center no-underline hover:opacity-90" style={{ height: '52px', lineHeight: '52px', fontSize: '17px', background: card.popular ? 'linear-gradient(135deg, #1a5c3a, #2d7a52)' : 'linear-gradient(135deg, #b8960c, #d4af37)', color: card.popular ? 'white' : '#1a1a1a' }}>
+                  Order Now
+                </Link>
+              </div>
+            ))}
+          </div>
+
+          <div className="text-center">
+            <Link to="/store?cat=Rule%20Cards" className="inline-flex items-center gap-2 font-bold no-underline hover:underline" style={{ fontSize: '17px', color: '#1a5c3a' }}>
+              View all rule cards <ArrowRight size={17} strokeWidth={2.5} />
+            </Link>
+          </div>
         </div>
       </div>
 
@@ -77,7 +104,7 @@ export default function Home() {
               { to: '/faq',     emoji: '❓', title: 'Common Questions',     desc: 'Rules, orders, shipping — answered simply.' },
               { to: '/contact', emoji: '📞', title: 'Contact Us',           desc: 'Call us or send a message. We\'re here to help.' },
             ].map(card => (
-              <Link key={card.to} to={card.to} className="block rounded-2xl p-7 border-2 border-stone-200 bg-stone-50 no-underline transition-all hover:border-green-700 hover:bg-green-50 group" style={{ textDecoration: 'none' }}>
+              <Link key={card.to} to={card.to} className="block rounded-2xl p-7 border-2 border-stone-200 bg-stone-50 no-underline transition-all hover:border-green-700 hover:bg-green-50 hover:shadow-lg group" style={{ textDecoration: 'none' }}>
                 <div style={{ fontSize: '40px', marginBottom: '12px' }}>{card.emoji}</div>
                 <h3 className="font-bold mb-2" style={{ fontFamily: 'Georgia, serif', fontSize: '20px', color: DARK }}>{card.title}</h3>
                 <p style={{ fontSize: '17px', color: '#555', lineHeight: '1.6', marginBottom: '16px' }}>{card.desc}</p>
