@@ -1,158 +1,157 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { ShoppingCart, Menu, X, Phone, ArrowUp } from 'lucide-react';
-import { NAV_LINKS, GREEN, GOLD, DARK } from '../data';
+import { ShoppingCart, Menu, X } from 'lucide-react';
 import CartDrawer from './CartDrawer';
+import { NAV_LINKS } from '../data';
 
-export default function Layout({ children, cart, onUpdateQty, onRemove }) {
+const GREEN   = '#1C3A2A';
+const GOLD    = '#C9A84C';
+const CREAM   = '#F7F2E8';
+
+export default function Layout({ children, cart, updateQty, removeFromCart }) {
+  const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [cartOpen, setCartOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-  const [showTop, setShowTop] = useState(false);
+  const [backTop,  setBackTop]  = useState(false);
   const location = useLocation();
   const isHome = location.pathname === '/';
-  const cartCount = cart.reduce((s, i) => s + i.qty, 0);
 
   useEffect(() => {
-    function onScroll() {
-      setScrolled(window.scrollY > 20);
-      setShowTop(window.scrollY > 600);
-    }
+    const onScroll = () => {
+      setScrolled(window.scrollY > 60);
+      setBackTop(window.scrollY > 600);
+    };
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  useEffect(() => {
-    setMenuOpen(false);
-    window.scrollTo(0, 0);
-  }, [location.pathname]);
+  useEffect(() => { setMenuOpen(false); }, [location]);
 
-  const solid = scrolled || !isHome;
+  const totalQty = cart.reduce((s, i) => s + i.qty, 0);
+  const solid = !isHome || scrolled;
+  const linkColor = solid ? GREEN : '#fff';
+  const logoFilter = solid ? 'none' : 'brightness(0) invert(1)';
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: '#f5f2ea', fontFamily: 'Georgia, "Times New Roman", serif' }}>
+    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+      {/* ── NAV ─────────────────────────────────────────────────────── */}
+      <header style={{
+        position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100,
+        background: solid ? '#fff' : 'transparent',
+        borderBottom: solid ? `2px solid ${GREEN}` : 'none',
+        transition: 'background 0.35s, border-color 0.35s',
+      }}>
+        <div style={{
+          maxWidth: 1280, margin: '0 auto',
+          padding: '0 32px',
+          height: 72,
+          display: 'flex', alignItems: 'center', gap: 24,
+        }}>
+          {/* Logo */}
+          <Link to="/" style={{ flexShrink: 0, display: 'flex', alignItems: 'center', gap: 12, textDecoration: 'none' }}>
+            <img
+              src="https://www.nationalmahjonggleague.org/images/rsz_1rsz_1rsz_mahjong.png"
+              alt="NMJL"
+              style={{ height: 44, width: 'auto', filter: logoFilter, transition: 'filter 0.35s' }}
+              onError={e => { e.target.style.display = 'none'; }}
+            />
+            <span style={{
+              fontFamily: "'Playfair Display', Georgia, serif",
+              fontWeight: 900, fontSize: 13,
+              lineHeight: 1.25, color: linkColor,
+              transition: 'color 0.35s',
+              letterSpacing: '0.05em',
+              textTransform: 'uppercase',
+            }}>
+              National<br />Mah Jongg<br />League
+            </span>
+          </Link>
 
-      {/* ══ HEADER ══ */}
-      <header
-        className="fixed top-0 left-0 right-0 z-30 transition-all duration-300"
-        style={{
-          background: solid ? 'white' : 'rgba(5,20,12,0.80)',
-          borderBottom: solid ? `3px solid ${GREEN}` : 'none',
-          boxShadow: solid ? '0 2px 12px rgba(0,0,0,0.10)' : 'none',
-        }}
-      >
-        <div style={{ maxWidth: '1140px', margin: '0 auto', padding: '0 20px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', minHeight: '68px' }}>
+          {/* Desktop nav — centered */}
+          <nav style={{ flex: 1, display: 'flex', justifyContent: 'center', gap: 36 }}
+               className="desktop-nav">
+            {NAV_LINKS.map(link => {
+              const active = location.pathname === link.href;
+              return (
+                <Link key={link.href} to={link.href} style={{
+                  fontFamily: "'Lora', Georgia, serif",
+                  fontWeight: 500, fontSize: 15,
+                  letterSpacing: '0.08em', textTransform: 'uppercase',
+                  textDecoration: 'none',
+                  color: active ? GOLD : linkColor,
+                  borderBottom: active ? `2px solid ${GOLD}` : '2px solid transparent',
+                  paddingBottom: 2,
+                  transition: 'color 0.2s',
+                }}>
+                  {link.label}
+                </Link>
+              );
+            })}
+          </nav>
 
-            {/* Logo */}
-            <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: '12px', textDecoration: 'none', flexShrink: 0 }}>
-              <img
-                src="https://www.nationalmahjonggleague.org/images/rsz_1rsz_1rsz_mahjong.png"
-                alt="NMJL Logo"
-                style={{ height: '42px', width: 'auto' }}
-                onError={e => { e.target.style.display = 'none'; }}
-              />
-              <div>
-                <div style={{ fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: solid ? GREEN : '#d4af37' }}>National</div>
-                <div style={{ fontSize: '15px', fontWeight: 700, color: solid ? DARK : 'white', lineHeight: 1.2, fontFamily: 'Georgia, serif' }}>Mah Jongg League</div>
-              </div>
+          {/* Right: Cart + CTA + Hamburger */}
+          <div style={{ flexShrink: 0, display: 'flex', alignItems: 'center', gap: 14 }}>
+            <button onClick={() => setCartOpen(true)} aria-label={`Cart (${totalQty} items)`}
+              style={{ background: 'none', border: 'none', cursor: 'pointer', color: linkColor, position: 'relative', padding: 4, transition: 'color 0.35s' }}>
+              <ShoppingCart size={24} />
+              {totalQty > 0 && (
+                <span style={{
+                  position: 'absolute', top: -5, right: -7,
+                  background: GOLD, color: '#fff',
+                  fontFamily: "'Lora', serif", fontWeight: 700, fontSize: 11,
+                  borderRadius: '50%', width: 20, height: 20,
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                }}>{totalQty}</span>
+              )}
+            </button>
+
+            <Link to="/store" className="cta-btn" style={{
+              fontFamily: "'Lora', Georgia, serif",
+              fontWeight: 600, fontSize: 13,
+              letterSpacing: '0.07em', textTransform: 'uppercase',
+              textDecoration: 'none', color: '#fff',
+              background: GOLD, border: `2px solid ${GOLD}`,
+              borderRadius: 40, padding: '8px 20px',
+              display: 'inline-block', whiteSpace: 'nowrap',
+              transition: 'background 0.2s, color 0.2s',
+            }}>
+              Order 2026 Card
             </Link>
 
-            {/* Desktop Nav — 5 clean links */}
-            <nav style={{ display: 'none' }} className="lg-nav">
-              <style>{`
-                @media (min-width: 1024px) { .lg-nav { display: flex !important; align-items: center; gap: 4px; } }
-              `}</style>
-              {NAV_LINKS.map(l => {
-                const active = location.pathname === l.href || (l.href !== '/' && location.pathname.startsWith(l.href));
-                return (
-                  <Link
-                    key={l.href}
-                    to={l.href}
-                    style={{
-                      padding: '8px 16px',
-                      borderRadius: '8px',
-                      fontWeight: 700,
-                      fontSize: '16px',
-                      textDecoration: 'none',
-                      color: solid ? (active ? GREEN : '#1a1a1a') : (active ? '#86efac' : 'white'),
-                      background: active && solid ? 'rgba(26,92,58,0.08)' : 'transparent',
-                      borderBottom: active ? `2px solid ${active && solid ? GREEN : '#d4af37'}` : '2px solid transparent',
-                      transition: 'all 0.15s',
-                    }}
-                  >
-                    {l.label}
-                  </Link>
-                );
-              })}
-            </nav>
-
-            {/* Right: CTA + Cart + Hamburger */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-              <Link
-                to="/store"
-                style={{
-                  display: 'none',
-                  alignItems: 'center',
-                  height: '44px',
-                  padding: '0 18px',
-                  borderRadius: '10px',
-                  fontWeight: 700,
-                  fontSize: '15px',
-                  textDecoration: 'none',
-                  background: `linear-gradient(135deg, ${GOLD}, #d4af37)`,
-                  color: '#1a1a1a',
-                  whiteSpace: 'nowrap',
-                }}
-                className="store-cta"
-              >
-                <style>{`@media (min-width: 640px) { .store-cta { display: flex !important; } }`}</style>
-                Order 2026 Card
-              </Link>
-
-              <button
-                onClick={() => setCartOpen(true)}
-                style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', width: '48px', height: '48px', borderRadius: '10px', border: 'none', background: 'transparent', cursor: 'pointer', color: solid ? '#1a1a1a' : 'white' }}
-                aria-label={`Cart${cartCount > 0 ? ` — ${cartCount} items` : ''}`}
-              >
-                <ShoppingCart size={22} strokeWidth={2} />
-                {cartCount > 0 && (
-                  <span style={{ position: 'absolute', top: '2px', right: '2px', width: '20px', height: '20px', borderRadius: '50%', background: '#8b1a2e', color: 'white', fontSize: '12px', fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    {cartCount}
-                  </span>
-                )}
-              </button>
-
-              <button
-                onClick={() => setMenuOpen(o => !o)}
-                style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '48px', height: '48px', borderRadius: '10px', border: 'none', background: 'transparent', cursor: 'pointer', color: solid ? '#1a1a1a' : 'white' }}
-                className="hamburger"
-                aria-label={menuOpen ? 'Close menu' : 'Open menu'}
-              >
-                <style>{`@media (min-width: 1024px) { .hamburger { display: none !important; } }`}</style>
-                {menuOpen ? <X size={24} /> : <Menu size={24} />}
-              </button>
-            </div>
+            <button onClick={() => setMenuOpen(m => !m)} aria-label="Toggle menu"
+              className="hamburger-btn"
+              style={{ background: 'none', border: 'none', cursor: 'pointer', color: linkColor, padding: 4, display: 'none', transition: 'color 0.35s' }}>
+              {menuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
           </div>
         </div>
 
-        {/* Mobile menu */}
+        {/* Mobile dropdown */}
         {menuOpen && (
-          <div style={{ background: 'white', borderTop: '2px solid #e5e2db', boxShadow: '0 8px 24px rgba(0,0,0,0.1)' }}>
-            <div style={{ padding: '12px 16px 16px', maxWidth: '1140px', margin: '0 auto' }}>
-              {NAV_LINKS.map(l => (
-                <Link
-                  key={l.href}
-                  to={l.href}
-                  style={{ display: 'flex', alignItems: 'center', padding: '16px', borderRadius: '12px', fontWeight: 700, fontSize: '20px', color: location.pathname === l.href ? GREEN : '#1a1a1a', textDecoration: 'none', background: location.pathname === l.href ? 'rgba(26,92,58,0.07)' : 'transparent', marginBottom: '2px' }}
-                >
-                  {l.label}
-                </Link>
-              ))}
-              <a href="tel:+12122463052" style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '16px', borderRadius: '12px', fontWeight: 700, fontSize: '20px', color: '#1a1a1a', textDecoration: 'none', marginBottom: '2px' }}>
-                <Phone size={20} color={GREEN} /> (212) 246-3052
-              </a>
-              <Link to="/store" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '16px', borderRadius: '12px', fontWeight: 700, fontSize: '20px', color: '#1a1a1a', textDecoration: 'none', background: `linear-gradient(135deg, ${GOLD}, #d4af37)`, marginTop: '4px' }}>
+          <div style={{ background: '#fff', borderTop: '1px solid #e5e0d5', paddingBottom: 16 }}>
+            {NAV_LINKS.map(link => (
+              <Link key={link.href} to={link.href} style={{
+                display: 'block', padding: '13px 32px',
+                fontFamily: "'Lora', Georgia, serif",
+                fontWeight: 500, fontSize: 18,
+                color: location.pathname === link.href ? GOLD : GREEN,
+                textDecoration: 'none',
+                borderLeft: location.pathname === link.href ? `4px solid ${GOLD}` : '4px solid transparent',
+              }}>
+                {link.label}
+              </Link>
+            ))}
+            <div style={{ padding: '12px 32px' }}>
+              <Link to="/store" style={{
+                display: 'inline-block',
+                fontFamily: "'Lora', Georgia, serif",
+                fontWeight: 600, fontSize: 15,
+                color: '#fff', background: GOLD,
+                border: `2px solid ${GOLD}`,
+                borderRadius: 40, padding: '10px 24px',
+                textDecoration: 'none', letterSpacing: '0.05em',
+                textTransform: 'uppercase',
+              }}>
                 Order 2026 Card
               </Link>
             </div>
@@ -160,66 +159,86 @@ export default function Layout({ children, cart, onUpdateQty, onRemove }) {
         )}
       </header>
 
-      {/* Page content */}
-      <main>{children}</main>
+      {/* ── MAIN ────────────────────────────────────────────────────── */}
+      <main style={{ flex: 1 }}>
+        {children}
+      </main>
 
-      {/* ══ FOOTER ══ */}
-      <footer style={{ background: '#0a1a0f', padding: '52px 24px 28px' }}>
-        <div style={{ maxWidth: '1140px', margin: '0 auto', color: 'white' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '36px', marginBottom: '40px' }}>
-
-            {/* Brand */}
+      {/* ── FOOTER ─────────────────────────────────────────────────── */}
+      <footer style={{ background: GREEN, color: CREAM }}>
+        <div style={{ background: GOLD, height: 4 }} />
+        <div style={{ maxWidth: 1280, margin: '0 auto', padding: '56px 32px 40px' }}>
+          <div style={{ textAlign: 'center', fontSize: 20, letterSpacing: 10, marginBottom: 48, opacity: 0.35 }}>
+            🀇 &nbsp; 🀙 &nbsp; 🀠 &nbsp; 🀅
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 40 }}>
             <div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '14px' }}>
-                <img src="https://www.nationalmahjonggleague.org/images/rsz_1rsz_1rsz_mahjong.png" alt="NMJL" style={{ height: '36px' }} onError={e => { e.target.style.display = 'none'; }} />
-                <div>
-                  <div style={{ fontSize: '10px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.4)' }}>National</div>
-                  <div style={{ fontSize: '14px', fontWeight: 700, fontFamily: 'Georgia, serif' }}>Mah Jongg League</div>
-                </div>
-              </div>
-              <p style={{ fontSize: '15px', color: 'rgba(255,255,255,0.55)', lineHeight: '1.7', margin: 0 }}>The official home of American Mah Jongg since 1937.</p>
-            </div>
-
-            {/* Navigation */}
-            <div>
-              <div style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.35)', marginBottom: '14px' }}>Navigation</div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                {NAV_LINKS.map(l => (
-                  <Link key={l.href} to={l.href} style={{ fontSize: '16px', color: 'rgba(255,255,255,0.65)', textDecoration: 'none', fontWeight: 500 }}>{l.label}</Link>
-                ))}
-                <Link to="/charity" style={{ fontSize: '16px', color: 'rgba(255,255,255,0.65)', textDecoration: 'none', fontWeight: 500 }}>Charitable Work</Link>
-                <Link to="/game" style={{ fontSize: '16px', color: 'rgba(255,255,255,0.65)', textDecoration: 'none', fontWeight: 500 }}>The Game</Link>
-              </div>
-            </div>
-
-            {/* Contact */}
-            <div>
-              <div style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.35)', marginBottom: '14px' }}>Contact</div>
-              <a href="tel:+12122463052" style={{ display: 'block', fontSize: '20px', fontWeight: 700, color: '#d4af37', textDecoration: 'none', marginBottom: '10px' }}>(212) 246-3052</a>
-              <p style={{ fontSize: '15px', color: 'rgba(255,255,255,0.6)', lineHeight: '1.75', margin: 0 }}>
-                450 7th Avenue, Suite 405<br />New York, NY 10123<br /><br />
-                PO Box 50003<br />Newark NJ 07101-8006
+              <h3 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 900, fontSize: 20, color: '#fff', margin: '0 0 14px' }}>
+                National Mah Jongg League
+              </h3>
+              <p style={{ fontFamily: "'Lora', Georgia, serif", fontSize: 16, lineHeight: 1.75, color: 'rgba(247,242,232,0.7)', margin: 0 }}>
+                The official governing body of American Mah Jongg. Preserving the game and its community since 1937.
               </p>
             </div>
+            <div>
+              <h4 style={{ fontFamily: "'Lora', Georgia, serif", fontWeight: 600, fontSize: 12, letterSpacing: '0.14em', textTransform: 'uppercase', color: GOLD, margin: '0 0 16px' }}>
+                Navigate
+              </h4>
+              <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex', flexDirection: 'column', gap: 10 }}>
+                {[...NAV_LINKS, { label: 'Charity', href: '/charity' }, { label: 'How to Play', href: '/game' }].map(l => (
+                  <li key={l.href}>
+                    <Link to={l.href} style={{ fontFamily: "'Lora', Georgia, serif", fontSize: 16, color: 'rgba(247,242,232,0.75)', textDecoration: 'none' }}>
+                      {l.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <h4 style={{ fontFamily: "'Lora', Georgia, serif", fontWeight: 600, fontSize: 12, letterSpacing: '0.14em', textTransform: 'uppercase', color: GOLD, margin: '0 0 16px' }}>
+                Contact
+              </h4>
+              <address style={{ fontFamily: "'Lora', Georgia, serif", fontStyle: 'normal', fontSize: 16, lineHeight: 1.85, color: 'rgba(247,242,232,0.75)' }}>
+                450 Seventh Avenue, Suite 405<br />
+                New York, NY 10123<br /><br />
+                Mail Orders: PO Box 50003<br />
+                Newark, NJ 07101-8006<br /><br />
+                <a href="tel:+12122463052" style={{ color: GOLD, textDecoration: 'none' }}>(212) 246-3052</a>
+              </address>
+            </div>
           </div>
-
-          <div style={{ borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '20px' }}>
-            <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.35)', margin: 0 }}>© 2026 The National Mah Jongg League, Inc. All rights reserved.</p>
+          <div style={{ borderTop: '1px solid rgba(247,242,232,0.12)', marginTop: 48, paddingTop: 24, textAlign: 'center' }}>
+            <p style={{ fontFamily: "'Lora', Georgia, serif", fontSize: 14, color: 'rgba(247,242,232,0.4)', margin: 0 }}>
+              &copy; {new Date().getFullYear()} National Mah Jongg League, Inc. All rights reserved.
+            </p>
           </div>
         </div>
       </footer>
 
-      <CartDrawer cart={cart} open={cartOpen} onClose={() => setCartOpen(false)} onUpdateQty={onUpdateQty} onRemove={onRemove} />
+      <CartDrawer open={cartOpen} onClose={() => setCartOpen(false)} cart={cart} onUpdateQty={updateQty} onRemove={removeFromCart} />
 
-      {showTop && (
-        <button
-          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-          style={{ position: 'fixed', bottom: '24px', right: '24px', display: 'flex', alignItems: 'center', gap: '6px', height: '52px', padding: '0 20px', borderRadius: '12px', background: GREEN, color: 'white', border: 'none', cursor: 'pointer', fontWeight: 700, fontSize: '16px', zIndex: 20, boxShadow: '0 4px 16px rgba(0,0,0,0.2)' }}
-          aria-label="Back to top"
-        >
-          <ArrowUp size={18} strokeWidth={2.5} /> Top
+      {backTop && (
+        <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} aria-label="Back to top"
+          style={{
+            position: 'fixed', bottom: 32, right: 32, zIndex: 50,
+            background: GREEN, color: CREAM,
+            border: `2px solid ${GOLD}`, borderRadius: '50%',
+            width: 48, height: 48, cursor: 'pointer',
+            fontFamily: "'Lora', serif", fontSize: 20,
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+          }}>
+          ↑
         </button>
       )}
+
+      <style>{`
+        @media (max-width: 900px) {
+          .desktop-nav { display: none !important; }
+          .cta-btn { display: none !important; }
+          .hamburger-btn { display: block !important; }
+        }
+        .cta-btn:hover { background: #b8960c !important; border-color: #b8960c !important; }
+      `}</style>
     </div>
   );
 }

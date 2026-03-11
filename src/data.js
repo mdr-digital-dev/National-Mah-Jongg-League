@@ -1,7 +1,8 @@
-export const GREEN = '#1a5c3a';
-export const GOLD  = '#b8960c';
-export const CREAM = '#faf6ee';
-export const DARK  = '#1a1a1a';
+export const GREEN   = '#1C3A2A';
+export const GOLD    = '#C9A84C';
+export const CREAM   = '#F7F2E8';
+export const DARK    = '#1C1C1C';
+export const BURGUNDY = '#5C1A2A';
 
 export const NAV_LINKS = [
   { label: 'Home',    href: '/'        },

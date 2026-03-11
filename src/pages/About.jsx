@@ -1,93 +1,158 @@
-import { Check } from 'lucide-react';
-import { GREEN, DARK } from '../data';
+const GREEN = '#1C3A2A';
+const GOLD  = '#C9A84C';
+const CREAM = '#F7F2E8';
 
-function PageHeader({ label, title, subtitle }) {
-  return (
-    <div style={{ background: GREEN, padding: '40px 24px', paddingTop: '112px' }}>
-      <div className="max-w-5xl mx-auto">
-        <div className="inline-block font-bold tracking-widest uppercase px-4 py-1 rounded-full mb-3" style={{ background: 'rgba(255,255,255,0.15)', color: 'rgba(255,255,255,0.85)', fontSize: '12px' }}>{label}</div>
-        <h1 style={{ fontFamily: 'Georgia, serif', fontSize: 'clamp(1.8rem, 4vw, 2.8rem)', fontWeight: 700, color: 'white', marginBottom: subtitle ? '8px' : 0 }}>{title}</h1>
-        {subtitle && <p style={{ fontSize: '18px', color: 'rgba(255,255,255,0.85)' }}>{subtitle}</p>}
-      </div>
-    </div>
-  );
-}
+const TIMELINE = [
+  {
+    year: '1937',
+    title: 'The League is Founded',
+    body: 'A small group of 32 women in New York City come together to create a standard American version of Mah Jongg. They establish the National Mah Jongg League to serve as the official governing body of the game.',
+  },
+  {
+    year: '1965',
+    title: 'Ruth Unger Takes the Helm',
+    body: 'Ruth Unger becomes the driving force behind the League, shepherding it through decades of growth. Under her leadership the annual rule card becomes an institution — eagerly awaited each year by hundreds of thousands of players.',
+  },
+  {
+    year: '2015',
+    title: 'A New Generation',
+    body: 'David and Larry Unger carry forward their mother\'s legacy, modernizing the League while fiercely protecting its traditions. The membership continues to grow, reaching over 350,000 active members across North America.',
+  },
+  {
+    year: 'Today',
+    title: '350,000+ Members Strong',
+    body: 'The League issues the official annual rule card, operates the NMJL store, and donates proceeds to 28 charitable organizations. It remains the sole authority on official American Mah Jongg rules.',
+  },
+];
 
 export default function About() {
   return (
-    <div style={{ minHeight: '100vh', background: '#faf6ee' }}>
-      <PageHeader label="Our Heritage" title="About the National Mah Jongg League" subtitle="Serving American Mah Jongg players since 1937." />
+    <div style={{ background: CREAM, paddingTop: 72 }}>
+      {/* Page header */}
+      <div style={{ background: GREEN, padding: '52px 32px 44px', borderBottom: `4px solid ${GOLD}` }}>
+        <div style={{ maxWidth: 1280, margin: '0 auto' }}>
+          <div style={{ fontFamily: "'Lora', Georgia, serif", fontWeight: 600, fontSize: 12, letterSpacing: '0.18em', textTransform: 'uppercase', color: GOLD, marginBottom: 10 }}>
+            Our History
+          </div>
+          <h1 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 900, fontSize: 'clamp(32px, 5vw, 56px)', color: '#fff', margin: 0 }}>
+            About the League
+          </h1>
+        </div>
+      </div>
 
-      <div style={{ background: 'white', padding: '64px 24px' }}>
-        <div className="max-w-5xl mx-auto grid lg:grid-cols-2 gap-12 items-start">
-          <div>
-            <p style={{ fontSize: '19px', lineHeight: '1.9', color: '#2a2a2a', marginBottom: '1.5rem' }}>
-              For over <strong>89 years</strong>, the National Mah Jongg League has been the official authority on American Mah Jongg — standardizing the rules, supporting players, and giving back to the community.
-            </p>
-            <p style={{ fontSize: '19px', lineHeight: '1.9', color: '#2a2a2a', marginBottom: '2rem' }}>
-              Founded in <strong>1937</strong> in New York City with just 32 members, we have grown to more than <strong>350,000 members</strong> across North America.
-            </p>
-            <div className="space-y-3">
-              {[
-                'Publishes the official American rule card every year',
-                'Sells equipment and merchandise for the game',
-                'Answers rules questions and settles disputes',
-                'Donates generously to charities across the country',
-                'The only official source for authentic NMJL cards',
-              ].map((item, i) => (
-                <div key={i} className="flex items-start gap-3">
-                  <div className="w-7 h-7 rounded-full flex-shrink-0 mt-0.5 flex items-center justify-center" style={{ background: GREEN }}>
-                    <Check size={14} color="white" strokeWidth={3} />
-                  </div>
-                  <p style={{ fontSize: '18px', lineHeight: '1.65', color: '#2a2a2a' }}>{item}</p>
-                </div>
-              ))}
+      {/* Intro + vintage photo */}
+      <section style={{ maxWidth: 1280, margin: '0 auto', padding: '72px 32px', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: 64, alignItems: 'center' }}>
+        <div>
+          <h2 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 900, fontSize: 'clamp(26px, 3.5vw, 40px)', color: GREEN, margin: '0 0 24px', lineHeight: 1.2 }}>
+            The Official Home of<br />American Mah Jongg
+          </h2>
+          <p style={{ fontFamily: "'Lora', Georgia, serif", fontSize: 18, lineHeight: 1.8, color: '#444', margin: '0 0 20px' }}>
+            The National Mah Jongg League was founded in 1937 by 32 women in New York City who wanted to create a standardized American version of the ancient Chinese tile game. What began as a small civic organization has grown into the premier governing body for American Mah Jongg.
+          </p>
+          <p style={{ fontFamily: "'Lora', Georgia, serif", fontSize: 18, lineHeight: 1.8, color: '#444', margin: 0 }}>
+            Each year, the League publishes the official rule card — the definitive guide to that year's winning hands. With over 350,000 active members, the NMJL card is among the most eagerly anticipated publications in the world of tabletop games.
+          </p>
+        </div>
+        <div>
+          <img
+            src="https://www.nationalmahjonggleague.org/images/league_01.jpg"
+            alt="NMJL founding members, circa 1937"
+            style={{ width: '100%', display: 'block', filter: 'sepia(15%) contrast(1.05)' }}
+            onError={e => {
+              e.target.style.display = 'none';
+              e.target.nextSibling.style.display = 'flex';
+            }}
+          />
+          <div style={{
+            display: 'none', background: `${GREEN}15`,
+            border: `2px solid ${GREEN}30`,
+            padding: '60px 40px', alignItems: 'center', justifyContent: 'center',
+            flexDirection: 'column', gap: 12, minHeight: 280,
+          }}>
+            <div style={{ fontSize: 48 }}>🀄</div>
+            <div style={{ fontFamily: "'Lora', serif", fontSize: 16, color: GREEN, fontStyle: 'italic' }}>
+              NMJL — Est. 1937
             </div>
           </div>
-
-          <div className="space-y-6">
-            <div className="rounded-2xl overflow-hidden border-2 border-stone-200">
-              <img src="https://www.nationalmahjonggleague.org/images/league_01.jpg" alt="NMJL founders and early members" className="w-full object-cover" style={{ height: '280px' }} loading="lazy" onError={e => { e.target.src = 'https://images.unsplash.com/photo-1611329857570-f02f340e7378?w=800&q=80'; }} />
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              {[
-                { value: '350,000+', label: 'Members'        },
-                { value: '89 Years', label: 'Of Service'     },
-                { value: '$3M+',     label: 'To Charity'     },
-                { value: '1937',     label: 'Year Founded'   },
-              ].map((s, i) => (
-                <div key={i} className="rounded-2xl p-5 text-center border-2 border-stone-200 bg-stone-50">
-                  <div style={{ fontFamily: 'Georgia, serif', fontSize: '26px', fontWeight: 700, color: GREEN }}>{s.value}</div>
-                  <div style={{ fontSize: '16px', color: '#555', marginTop: '4px', fontWeight: 600 }}>{s.label}</div>
-                </div>
-              ))}
-            </div>
+          <div style={{ padding: '12px 16px', background: `${GREEN}08`, borderBottom: `2px solid ${GREEN}20` }}>
+            <p style={{ fontFamily: "'Lora', Georgia, serif", fontStyle: 'italic', fontSize: 14, color: '#777', margin: 0, lineHeight: 1.5 }}>
+              National Mah Jongg League founding members, New York City, 1937
+            </p>
           </div>
+        </div>
+      </section>
+
+      {/* Stats band */}
+      <div style={{ background: GREEN, padding: '56px 32px', borderTop: `3px solid ${GOLD}`, borderBottom: `3px solid ${GOLD}` }}>
+        <div style={{ maxWidth: 1280, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 32, textAlign: 'center' }}>
+          {[
+            { n: '350,000+', l: 'Active Members' },
+            { n: '89',       l: 'Years of History' },
+            { n: '$3M+',     l: 'Donated to Charity' },
+            { n: '1937',     l: 'Year Founded' },
+          ].map(s => (
+            <div key={s.n} style={{ borderTop: `2px solid ${GOLD}`, paddingTop: 20 }}>
+              <div style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 900, fontSize: 44, color: GOLD, lineHeight: 1 }}>{s.n}</div>
+              <div style={{ fontFamily: "'Lora', Georgia, serif", fontSize: 16, color: 'rgba(247,242,232,0.8)', marginTop: 8 }}>{s.l}</div>
+            </div>
+          ))}
         </div>
       </div>
 
       {/* Timeline */}
-      <div style={{ background: '#f0ede4', padding: '64px 24px' }}>
-        <div className="max-w-3xl mx-auto">
-          <h2 style={{ fontFamily: 'Georgia, serif', fontSize: 'clamp(1.6rem, 3.5vw, 2.2rem)', fontWeight: 700, color: DARK, marginBottom: '36px' }}>Our History</h2>
-          <div className="space-y-6">
-            {[
-              { year: '1937',  text: 'Founded in New York City with 32 charter members to standardize American Mah Jongg rules.' },
-              { year: '1965',  text: 'Ruth Unger becomes president, shaping the League\'s modern era and growing membership.' },
-              { year: '2015',  text: 'David & Larry Unger take leadership of the League, continuing the family tradition.' },
-              { year: 'Today', text: 'Over 350,000 members across North America, publishing the official rule card each year.' },
-            ].map((item, i) => (
-              <div key={i} className="flex gap-5 bg-white rounded-2xl p-6 border-2 border-stone-200">
-                <div className="flex-shrink-0 font-bold text-center pt-0.5" style={{ width: '52px', color: '#b8960c', fontSize: '15px', fontFamily: 'Georgia, serif' }}>{item.year}</div>
-                <div className="flex gap-4 items-start flex-1">
-                  <div className="w-3 h-3 rounded-full mt-2 flex-shrink-0" style={{ background: GREEN }} />
-                  <p style={{ fontSize: '18px', lineHeight: '1.7', color: '#2a2a2a' }}>{item.text}</p>
-                </div>
-              </div>
-            ))}
+      <section style={{ maxWidth: 900, margin: '0 auto', padding: '80px 32px' }}>
+        <div style={{ textAlign: 'center', marginBottom: 56 }}>
+          <div style={{ fontFamily: "'Lora', Georgia, serif", fontWeight: 600, fontSize: 12, letterSpacing: '0.2em', textTransform: 'uppercase', color: GOLD, marginBottom: 12 }}>
+            Our Story
           </div>
+          <h2 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 900, fontSize: 'clamp(26px, 4vw, 40px)', color: GREEN, margin: 0 }}>
+            A Timeline of Tradition
+          </h2>
         </div>
-      </div>
+
+        <div style={{ position: 'relative', paddingLeft: 40 }}>
+          {/* Vertical rule */}
+          <div style={{ position: 'absolute', left: 0, top: 8, bottom: 8, width: 2, background: `${GREEN}25` }} />
+
+          {TIMELINE.map((item, i) => (
+            <div key={item.year} style={{ position: 'relative', marginBottom: i < TIMELINE.length - 1 ? 52 : 0 }}>
+              {/* Dot */}
+              <div style={{
+                position: 'absolute', left: -48,
+                width: 18, height: 18,
+                background: GOLD, border: `3px solid ${CREAM}`,
+                outline: `2px solid ${GOLD}`,
+                borderRadius: '50%',
+                top: 6,
+              }} />
+              <div style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 700, fontSize: 13, letterSpacing: '0.12em', textTransform: 'uppercase', color: GOLD, marginBottom: 8 }}>
+                {item.year}
+              </div>
+              <h3 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 700, fontSize: 22, color: GREEN, margin: '0 0 12px' }}>
+                {item.title}
+              </h3>
+              <p style={{ fontFamily: "'Lora', Georgia, serif", fontSize: 17, lineHeight: 1.8, color: '#555', margin: 0 }}>
+                {item.body}
+              </p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Leadership */}
+      <section style={{ background: `${GREEN}08`, borderTop: `1px solid ${GREEN}20`, padding: '64px 32px' }}>
+        <div style={{ maxWidth: 760, margin: '0 auto', textAlign: 'center' }}>
+          <div style={{ fontFamily: "'Lora', Georgia, serif", fontWeight: 600, fontSize: 12, letterSpacing: '0.2em', textTransform: 'uppercase', color: GOLD, marginBottom: 16 }}>
+            Leadership
+          </div>
+          <h2 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 900, fontSize: 32, color: GREEN, margin: '0 0 24px' }}>
+            The Unger Family
+          </h2>
+          <p style={{ fontFamily: "'Lora', Georgia, serif", fontSize: 18, lineHeight: 1.8, color: '#555', margin: 0 }}>
+            For decades the League has been guided by the Unger family. Ruth Unger spent her career building NMJL into the institution it is today, and her sons David and Larry Unger continue that work with the same dedication to the game, its players, and the communities they serve.
+          </p>
+        </div>
+      </section>
     </div>
   );
 }

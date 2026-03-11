@@ -1,53 +1,142 @@
-import { GREEN, DARK } from '../data';
+import { Link } from 'react-router-dom';
+
+const GREEN = '#1C3A2A';
+const GOLD  = '#C9A84C';
+const CREAM = '#F7F2E8';
+
+const FEATURES = [
+  {
+    title: 'The Annual Rule Card',
+    body: 'Each year the NMJL publishes a new rule card — the definitive guide to that year\'s winning hands. The card changes annually, which keeps the game fresh and requires players to study and adapt every season.',
+    icon: '🀄',
+  },
+  {
+    title: 'Joker Tiles',
+    body: 'American Mah Jongg incorporates Joker tiles as wild cards, a distinctive feature not found in other forms of the game. Jokers can substitute for any tile in an exposed set — but never in a pair.',
+    icon: '🃏',
+  },
+  {
+    title: 'The Charleston',
+    body: 'Before play begins, players participate in a ritual exchange of tiles called the Charleston — passing tiles left, across, and right. This uniquely American addition adds a strategic layer of tile management.',
+    icon: '↻',
+  },
+  {
+    title: 'Quints & Sextets',
+    body: 'With the use of Jokers, American Mah Jongg allows for hands containing quints (5 of a kind) and sextets (6 of a kind), creating winning combinations impossible in other forms of the game.',
+    icon: '🀙',
+  },
+];
+
+const BASICS = [
+  { n: '4', l: 'Players' },
+  { n: '144', l: 'Tiles' },
+  { n: '16', l: 'Jokers' },
+  { n: '~45 min', l: 'Per game' },
+];
 
 export default function Game() {
   return (
-    <div style={{ minHeight: '100vh', background: '#faf6ee' }}>
-      <div style={{ background: GREEN, padding: '40px 24px', paddingTop: '112px' }}>
-        <div className="max-w-5xl mx-auto">
-          <h1 style={{ fontFamily: 'Georgia, serif', fontSize: 'clamp(1.8rem, 4vw, 2.8rem)', fontWeight: 700, color: 'white', marginBottom: '8px' }}>The Game of Mah Jongg</h1>
-          <p style={{ fontSize: '18px', color: 'rgba(255,255,255,0.85)' }}>Learn about American Mah Jongg — how it's played and what makes it special.</p>
+    <div style={{ background: CREAM, paddingTop: 72 }}>
+      {/* Header */}
+      <div style={{ background: GREEN, padding: '52px 32px 44px', borderBottom: `4px solid ${GOLD}` }}>
+        <div style={{ maxWidth: 1280, margin: '0 auto' }}>
+          <div style={{ fontFamily: "'Lora', Georgia, serif", fontWeight: 600, fontSize: 12, letterSpacing: '0.18em', textTransform: 'uppercase', color: GOLD, marginBottom: 10 }}>
+            The Game
+          </div>
+          <h1 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 900, fontSize: 'clamp(32px, 5vw, 56px)', color: '#fff', margin: 0 }}>
+            How to Play Mah Jongg
+          </h1>
         </div>
       </div>
 
-      <div style={{ background: 'white', padding: '64px 24px' }}>
-        <div className="max-w-5xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
-          <div className="rounded-2xl overflow-hidden border-2 border-stone-200">
-            <img src="https://www.nationalmahjonggleague.org/images/game_01.jpg" alt="Close-up of Mah Jongg tiles" className="w-full object-cover" style={{ height: '300px' }} loading="lazy" onError={e => { e.target.src = 'https://images.unsplash.com/photo-1611329857570-f02f340e7378?w=800&q=80'; }} />
-          </div>
-          <div>
-            <p style={{ fontSize: '19px', lineHeight: '1.9', color: '#2a2a2a', marginBottom: '1.25rem' }}>
-              Mah Jongg is a tile-based game similar to rummy, originally from China and popularized in America in the early 1900s. The American version has its own unique rules and a long tradition.
-            </p>
-            <p style={{ fontSize: '19px', lineHeight: '1.9', color: '#2a2a2a', marginBottom: '1.25rem' }}>
-              The game is played with four players, using a set of 152 tiles. Players draw and discard tiles to build a winning hand based on the current year's official rule card.
-            </p>
-            <p style={{ fontSize: '19px', lineHeight: '1.9', color: '#2a2a2a' }}>
-              The NMJL has been setting the official rules and supporting players since 1937.
-            </p>
-          </div>
+      {/* Overview */}
+      <section style={{ maxWidth: 1100, margin: '0 auto', padding: '72px 32px', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: 64, alignItems: 'start' }}>
+        <div>
+          <h2 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 900, fontSize: 'clamp(26px, 3.5vw, 38px)', color: GREEN, margin: '0 0 24px', lineHeight: 1.2 }}>
+            An Ancient Game,<br />
+            <em style={{ fontStyle: 'italic' }}>American Rules</em>
+          </h2>
+          <p style={{ fontFamily: "'Lora', Georgia, serif", fontSize: 18, lineHeight: 1.85, color: '#444', margin: '0 0 20px' }}>
+            Mah Jongg is a tile-based game, similar to the card game rummy, played by four players. The game originated in China and spread to the United States in the 1920s. The American version, governed by the NMJL, developed its own unique rules, hands, and traditions.
+          </p>
+          <p style={{ fontFamily: "'Lora', Georgia, serif", fontSize: 18, lineHeight: 1.85, color: '#444', margin: 0 }}>
+            Each player draws and discards tiles to build a winning combination called "Mah Jongg" — a complete hand as defined by the current year's official rule card. The first player to complete a valid hand wins.
+          </p>
         </div>
+
+        {/* Stats */}
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 2 }}>
+          {BASICS.map(b => (
+            <div key={b.n} style={{ background: '#fff', border: `1px solid ${GREEN}18`, borderTop: `4px solid ${GREEN}`, padding: '28px 24px' }}>
+              <div style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 900, fontSize: 44, color: GREEN, lineHeight: 1 }}>{b.n}</div>
+              <div style={{ fontFamily: "'Lora', Georgia, serif", fontSize: 16, color: '#777', marginTop: 8 }}>{b.l}</div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Divider */}
+      <div style={{ background: `${GREEN}10`, borderTop: `1px solid ${GREEN}18`, borderBottom: `1px solid ${GREEN}18`, padding: '12px 0', textAlign: 'center', letterSpacing: 14, fontSize: 16, color: `${GREEN}55` }}>
+        🀇 &nbsp; 🀈 &nbsp; 🀙 &nbsp; 🀠 &nbsp; 🀅
       </div>
 
-      <div style={{ background: '#f0ede4', padding: '64px 24px' }}>
-        <div className="max-w-5xl mx-auto">
-          <h2 style={{ fontFamily: 'Georgia, serif', fontSize: 'clamp(1.6rem, 3.5vw, 2.2rem)', fontWeight: 700, color: DARK, marginBottom: '32px' }}>What Makes American Mah Jongg Unique</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-            {[
-              { icon: '🀄', title: 'Annual Rule Card',  desc: 'Every year, the NMJL publishes a new card of Standard Hands. The winning combinations change each year — keeping the game fresh.' },
-              { icon: '🃏', title: 'Joker Tiles',       desc: 'American Mah Jongg uses special Joker tiles that act as wild tiles. They add a layer of strategy not found in other versions.' },
-              { icon: '🔄', title: 'The Charleston',    desc: 'Before play begins, players participate in a structured tile exchange called "The Charleston" — a beloved American tradition.' },
-              { icon: '🏆', title: 'Quints & Sextets', desc: 'American Mah Jongg allows special combinations of 5 or 6 matching tiles — giving skilled players extra opportunities to win.' },
-            ].map((card, i) => (
-              <div key={i} className="bg-white rounded-2xl p-7 border-2 border-stone-200">
-                <div style={{ fontSize: '40px', marginBottom: '12px' }}>{card.icon}</div>
-                <h3 style={{ fontFamily: 'Georgia, serif', fontSize: '20px', fontWeight: 700, color: DARK, marginBottom: '8px' }}>{card.title}</h3>
-                <p style={{ fontSize: '17px', color: '#444', lineHeight: '1.7' }}>{card.desc}</p>
-              </div>
-            ))}
+      {/* Features */}
+      <section style={{ maxWidth: 1100, margin: '0 auto', padding: '72px 32px' }}>
+        <div style={{ textAlign: 'center', marginBottom: 56 }}>
+          <div style={{ fontFamily: "'Lora', Georgia, serif", fontWeight: 600, fontSize: 12, letterSpacing: '0.2em', textTransform: 'uppercase', color: GOLD, marginBottom: 12 }}>
+            What Makes It Unique
           </div>
+          <h2 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 900, fontSize: 'clamp(26px, 4vw, 40px)', color: GREEN, margin: 0 }}>
+            4 Defining Features
+          </h2>
         </div>
-      </div>
+
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 2 }}>
+          {FEATURES.map((f, i) => (
+            <div key={f.title} style={{
+              background: i % 2 === 0 ? '#fff' : `${GREEN}06`,
+              border: `1px solid ${GREEN}18`,
+              borderTop: `4px solid ${i % 2 === 0 ? GREEN : GOLD}`,
+              padding: '36px 28px',
+            }}>
+              <div style={{ fontSize: 32, marginBottom: 16 }}>{f.icon}</div>
+              <h3 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 700, fontSize: 21, color: GREEN, margin: '0 0 14px' }}>
+                {f.title}
+              </h3>
+              <p style={{ fontFamily: "'Lora', Georgia, serif", fontSize: 17, lineHeight: 1.8, color: '#555', margin: 0 }}>
+                {f.body}
+              </p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Rule card CTA */}
+      <section style={{ background: GREEN, padding: '64px 32px', borderTop: `4px solid ${GOLD}`, textAlign: 'center' }}>
+        <div style={{ maxWidth: 640, margin: '0 auto' }}>
+          <div style={{ fontFamily: "'Lora', Georgia, serif", fontWeight: 600, fontSize: 12, letterSpacing: '0.2em', textTransform: 'uppercase', color: GOLD, marginBottom: 20 }}>
+            Official Rules
+          </div>
+          <h2 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 900, fontSize: 32, color: '#fff', margin: '0 0 20px' }}>
+            Get the 2026 Rule Card
+          </h2>
+          <p style={{ fontFamily: "'Lora', Georgia, serif", fontSize: 18, lineHeight: 1.8, color: 'rgba(247,242,232,0.8)', margin: '0 0 32px' }}>
+            The only way to learn this year's official winning hands is with the 2026 NMJL Rule Card. Available in Standard, Large Print, and Mega sizes.
+          </p>
+          <Link to="/store" style={{
+            display: 'inline-block',
+            fontFamily: "'Lora', Georgia, serif",
+            fontWeight: 600, fontSize: 15,
+            letterSpacing: '0.07em', textTransform: 'uppercase',
+            color: GREEN, background: GOLD,
+            border: `2px solid ${GOLD}`,
+            borderRadius: 40, padding: '14px 36px',
+            textDecoration: 'none',
+          }}>
+            Order Now
+          </Link>
+        </div>
+      </section>
     </div>
   );
 }

@@ -1,147 +1,296 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { ChevronLeft, ChevronRight, ArrowRight, Check } from 'lucide-react';
-import { HERO_IMAGES, GREEN, GOLD, DARK } from '../data';
+import { HERO_IMAGES, PRODUCTS } from '../data';
 
-export default function Home() {
-  const [heroImg, setHeroImg] = useState(0);
+const GREEN    = '#1C3A2A';
+const GOLD     = '#C9A84C';
+const CREAM    = '#F7F2E8';
+const BURGUNDY = '#5C1A2A';
+
+const cards2026 = PRODUCTS.filter(p => p.badge === 'New 2026');
+
+const NAV_TILES = [
+  { label: 'Shop the Store',     sub: 'Rule cards, tiles, apparel & more', href: '/store',   icon: '🀄' },
+  { label: 'About the League',   sub: 'Founded 1937 in New York City',      href: '/about',   icon: '🏛' },
+  { label: 'How to Play',        sub: 'Rules, hand guides & strategy',      href: '/game',    icon: '🀙' },
+  { label: 'Charitable Giving',  sub: '$3M+ donated to 28 organizations',   href: '/charity', icon: '♥' },
+  { label: 'FAQ',                sub: 'Answers to common questions',         href: '/faq',     icon: '❓' },
+  { label: 'Contact Us',         sub: '450 7th Ave, New York, NY',          href: '/contact', icon: '✉' },
+];
+
+export default function Home({ addToCart }) {
+  const [slide, setSlide] = useState(0);
+  const [qty,   setQty]   = useState({ 1: 1, 2: 1, 25: 1 });
+
+  useEffect(() => {
+    const t = setInterval(() => setSlide(s => (s + 1) % HERO_IMAGES.length), 5000);
+    return () => clearInterval(t);
+  }, []);
 
   return (
-    <>
-      {/* ── HERO ── */}
-      <section className="relative flex items-center justify-center overflow-hidden" style={{ minHeight: '100vh' }}>
+    <div style={{ background: CREAM }}>
+      {/* ── HERO ──────────────────────────────────────────────────── */}
+      <section style={{
+        position: 'relative',
+        height: '100vh', minHeight: 600,
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        overflow: 'hidden',
+      }}>
+        {/* Rotating background images */}
         {HERO_IMAGES.map((src, i) => (
-          <img key={src} src={src} alt="" aria-hidden="true"
-            className="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000"
-            style={{ opacity: i === heroImg ? 1 : 0 }}
-            loading={i === 0 ? 'eager' : 'lazy'}
-          />
+          <div key={src} style={{
+            position: 'absolute', inset: 0,
+            backgroundImage: `url(${src})`,
+            backgroundSize: 'cover', backgroundPosition: 'center',
+            opacity: i === slide ? 1 : 0,
+            transition: 'opacity 1.2s ease-in-out',
+          }} />
         ))}
-        <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, rgba(5,25,14,0.80) 0%, rgba(10,40,25,0.70) 55%, rgba(5,25,14,0.88) 100%)' }} />
+        {/* Dark overlay */}
+        <div style={{ position: 'absolute', inset: 0, background: 'rgba(15,28,20,0.62)' }} />
 
-        <div className="relative z-10 text-center text-white px-6 max-w-3xl mx-auto">
-          <div className="inline-flex items-center gap-2 font-bold tracking-widest uppercase mb-6 px-5 py-2 rounded-full" style={{ border: '2px solid rgba(212,175,55,0.55)', background: 'rgba(212,175,55,0.12)', fontSize: '14px', color: '#d4af37' }}>
-            ★ Est. 1937 — New York City
+        {/* Hero content */}
+        <div style={{ position: 'relative', textAlign: 'center', padding: '0 24px', maxWidth: 760 }}>
+          {/* Year badge */}
+          <div style={{
+            display: 'inline-block',
+            fontFamily: "'Lora', Georgia, serif",
+            fontWeight: 600, fontSize: 13,
+            letterSpacing: '0.18em', textTransform: 'uppercase',
+            color: GOLD, border: `1px solid ${GOLD}`,
+            padding: '6px 20px', marginBottom: 28,
+          }}>
+            Est. 1937 &nbsp;·&nbsp; New York City
           </div>
-          <h1 className="font-bold leading-tight mb-5" style={{ fontFamily: 'Georgia, serif', fontSize: 'clamp(2.2rem, 6vw, 4.2rem)', textShadow: '0 3px 20px rgba(0,0,0,0.55)', lineHeight: 1.2 }}>
-            The Official Home of<br />American Mah Jongg
+
+          <h1 style={{
+            fontFamily: "'Playfair Display', Georgia, serif",
+            fontWeight: 900, fontSize: 'clamp(40px, 7vw, 80px)',
+            lineHeight: 1.1, color: '#fff',
+            margin: '0 0 24px',
+            textShadow: '0 2px 20px rgba(0,0,0,0.4)',
+          }}>
+            National Mah Jongg<br />
+            <em style={{ fontStyle: 'italic', color: '#F0DFA0' }}>League</em>
           </h1>
-          <p style={{ fontSize: 'clamp(1.1rem, 2.5vw, 1.3rem)', color: 'rgba(255,255,255,0.9)', lineHeight: '1.8', marginBottom: '2.5rem' }}>
-            Serving 350,000+ Mah Jongg players since 1937.<br />Order your official rule card, browse the store, and get answers to your questions.
+
+          <p style={{
+            fontFamily: "'Lora', Georgia, serif",
+            fontWeight: 400, fontSize: 'clamp(18px, 2.5vw, 22px)',
+            color: 'rgba(255,255,255,0.88)', margin: 0,
+            lineHeight: 1.6,
+          }}>
+            The official home of American Mah Jongg since 1937.<br />
+            350,000+ members. One community.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link to="/store" className="rounded-xl font-bold text-center no-underline hover:opacity-90 transition-opacity" style={{ height: '64px', padding: '0 2.5rem', fontSize: '20px', background: `linear-gradient(135deg, ${GOLD}, #d4af37)`, color: '#1a1a1a', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              Order Your 2026 Card
-            </Link>
-            <Link to="/about" className="rounded-xl font-bold text-white text-center no-underline hover:bg-white/20 transition-colors" style={{ height: '64px', padding: '0 2.5rem', fontSize: '20px', border: '3px solid rgba(255,255,255,0.65)', background: 'rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              About the League
-            </Link>
-          </div>
         </div>
 
-        <button onClick={() => setHeroImg(i => (i - 1 + HERO_IMAGES.length) % HERO_IMAGES.length)} className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white rounded-full flex items-center justify-center" style={{ width: '56px', height: '56px' }} aria-label="Previous image"><ChevronLeft size={28} /></button>
-        <button onClick={() => setHeroImg(i => (i + 1) % HERO_IMAGES.length)} className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white rounded-full flex items-center justify-center" style={{ width: '56px', height: '56px' }} aria-label="Next image"><ChevronRight size={28} /></button>
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-3">
+        {/* Slide dots */}
+        <div style={{ position: 'absolute', bottom: 32, left: '50%', transform: 'translateX(-50%)', display: 'flex', gap: 10 }}>
           {HERO_IMAGES.map((_, i) => (
-            <button key={i} onClick={() => setHeroImg(i)} className="rounded-full transition-all" style={{ width: i === heroImg ? '28px' : '12px', height: '12px', background: i === heroImg ? '#d4af37' : 'rgba(255,255,255,0.5)' }} aria-label={`Image ${i + 1}`} />
+            <button key={i} onClick={() => setSlide(i)} aria-label={`Slide ${i+1}`}
+              style={{
+                width: i === slide ? 28 : 10, height: 10,
+                borderRadius: 5, border: 'none', cursor: 'pointer',
+                background: i === slide ? GOLD : 'rgba(255,255,255,0.45)',
+                transition: 'width 0.3s, background 0.3s', padding: 0,
+              }} />
           ))}
         </div>
       </section>
 
-      {/* ── 2026 CARD FEATURED SECTION ── */}
-      <div style={{ background: '#fffbf0', borderTop: '4px solid #b8960c', borderBottom: '4px solid #b8960c', padding: '48px 24px' }}>
-        <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-8">
-            <span className="inline-block font-bold tracking-widest uppercase px-4 py-1 rounded-full mb-3" style={{ background: '#b8960c', color: 'white', fontSize: '13px' }}>Now Available</span>
-            <h2 style={{ fontFamily: 'Georgia, serif', fontSize: 'clamp(1.8rem, 4vw, 2.6rem)', fontWeight: 700, color: '#1a1a1a', marginBottom: '8px' }}>
-              Order Your 2026 Rule Card
-            </h2>
-            <p style={{ fontSize: '19px', color: '#555', maxWidth: '520px', margin: '0 auto' }}>
-              The official NMJL rule card for 2026 is here. Cards ship beginning of April.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 mb-8">
-            {[
-              { name: 'Standard Size',    price: '$14.00', size: '5⅛″ × 4″',       popular: false },
-              { name: 'Large Print',      price: '$15.00', size: '6⅛″ × 4¾″',      popular: true  },
-              { name: 'Mega Card',        price: '$35.00', size: '8.5″ × 11″, 3 panels — ships late March', popular: false },
-            ].map((card, i) => (
-              <div key={i} className="rounded-2xl border-2 p-6 text-center bg-white" style={{ borderColor: card.popular ? '#1a5c3a' : '#d4af37', boxShadow: card.popular ? '0 4px 20px rgba(26,92,58,0.15)' : 'none' }}>
-                {card.popular && <div className="font-bold mb-2" style={{ color: '#1a5c3a', fontSize: '13px', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Most Popular</div>}
-                <div style={{ fontSize: '20px', fontWeight: 700, color: '#1a1a1a', fontFamily: 'Georgia, serif', marginBottom: '4px' }}>2026 Card — {card.name}</div>
-                <div style={{ fontSize: '15px', color: '#666', marginBottom: '12px' }}>{card.size}</div>
-                <div style={{ fontSize: '32px', fontWeight: 700, color: '#1a5c3a', marginBottom: '16px' }}>{card.price}</div>
-                <Link to="/store?cat=Rule%20Cards" className="block rounded-xl font-bold text-white text-center no-underline hover:opacity-90" style={{ height: '52px', lineHeight: '52px', fontSize: '17px', background: card.popular ? 'linear-gradient(135deg, #1a5c3a, #2d7a52)' : 'linear-gradient(135deg, #b8960c, #d4af37)', color: card.popular ? 'white' : '#1a1a1a' }}>
-                  Order Now
-                </Link>
-              </div>
-            ))}
-          </div>
-
-          <div className="text-center">
-            <Link to="/store?cat=Rule%20Cards" className="inline-flex items-center gap-2 font-bold no-underline hover:underline" style={{ fontSize: '17px', color: '#1a5c3a' }}>
-              View all rule cards <ArrowRight size={17} strokeWidth={2.5} />
-            </Link>
-          </div>
-        </div>
+      {/* ── ANNOUNCEMENT BAR ──────────────────────────────────────── */}
+      <div style={{
+        background: GREEN, color: CREAM,
+        textAlign: 'center', padding: '18px 24px',
+        borderBottom: `3px solid ${GOLD}`,
+      }}>
+        <p style={{
+          fontFamily: "'Lora', Georgia, serif",
+          fontWeight: 600, fontSize: 18,
+          margin: 0, letterSpacing: '0.03em',
+        }}>
+          <span style={{ color: GOLD, marginRight: 12 }}>🀄</span>
+          2026 Rule Cards Now Available — Ships April
+          <span style={{ color: GOLD, marginLeft: 12 }}>🀄</span>
+        </p>
       </div>
 
-      {/* ── QUICK LINKS ── */}
-      <section style={{ background: 'white', padding: '64px 24px' }}>
-        <div className="max-w-5xl mx-auto">
-          <h2 style={{ fontFamily: 'Georgia, serif', fontSize: 'clamp(1.6rem, 3.5vw, 2.4rem)', fontWeight: 700, color: DARK, marginBottom: '12px', textAlign: 'center' }}>
-            What Can We Help You With?
-          </h2>
-          <p style={{ fontSize: '18px', color: '#555', textAlign: 'center', marginBottom: '40px' }}>Choose a section below to get started.</p>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {[
-              { to: '/store',   emoji: '🛒', title: 'Shop the Store',       desc: 'Order rule cards, tiles, accessories, and more.' },
-              { to: '/about',   emoji: '🀄', title: 'About the League',     desc: 'Learn about our 89-year history and mission.' },
-              { to: '/game',    emoji: '🎯', title: 'How to Play',          desc: 'New to the game? Learn the basics here.' },
-              { to: '/charity', emoji: '❤️', title: 'Charitable Work',      desc: 'See how the League gives back every year.' },
-              { to: '/faq',     emoji: '❓', title: 'Common Questions',     desc: 'Rules, orders, shipping — answered simply.' },
-              { to: '/contact', emoji: '📞', title: 'Contact Us',           desc: 'Call us or send a message. We\'re here to help.' },
-            ].map(card => (
-              <Link key={card.to} to={card.to} className="block rounded-2xl p-7 border-2 border-stone-200 bg-stone-50 no-underline transition-all hover:border-green-700 hover:bg-green-50 hover:shadow-lg group" style={{ textDecoration: 'none' }}>
-                <div style={{ fontSize: '40px', marginBottom: '12px' }}>{card.emoji}</div>
-                <h3 className="font-bold mb-2" style={{ fontFamily: 'Georgia, serif', fontSize: '20px', color: DARK }}>{card.title}</h3>
-                <p style={{ fontSize: '17px', color: '#555', lineHeight: '1.6', marginBottom: '16px' }}>{card.desc}</p>
-                <span className="inline-flex items-center gap-1 font-bold" style={{ color: GREEN, fontSize: '16px' }}>
-                  Go there <ArrowRight size={16} strokeWidth={2.5} />
-                </span>
-              </Link>
-            ))}
+      {/* ── 2026 CARD SECTION ─────────────────────────────────────── */}
+      <section style={{ padding: '80px 32px', maxWidth: 1280, margin: '0 auto' }}>
+        {/* Editorial header */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 24, marginBottom: 48 }}>
+          <div style={{ flex: 1, height: 1, background: `${GREEN}30` }} />
+          <div style={{ textAlign: 'center' }}>
+            <div style={{
+              fontFamily: "'Lora', Georgia, serif",
+              fontWeight: 600, fontSize: 12,
+              letterSpacing: '0.2em', textTransform: 'uppercase',
+              color: GOLD, marginBottom: 8,
+            }}>
+              New This Year
+            </div>
+            <h2 style={{
+              fontFamily: "'Playfair Display', Georgia, serif",
+              fontWeight: 900, fontSize: 'clamp(28px, 4vw, 44px)',
+              color: GREEN, margin: 0,
+            }}>
+              2026 Official Rule Cards
+            </h2>
           </div>
+          <div style={{ flex: 1, height: 1, background: `${GREEN}30` }} />
         </div>
-      </section>
 
-      {/* ── WHY NMJL ── */}
-      <section style={{ background: '#f0ede4', padding: '64px 24px' }}>
-        <div className="max-w-5xl mx-auto">
-          <h2 style={{ fontFamily: 'Georgia, serif', fontSize: 'clamp(1.6rem, 3.5vw, 2.4rem)', fontWeight: 700, color: DARK, marginBottom: '40px', textAlign: 'center' }}>
-            The Official Source for American Mah Jongg
-          </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {[
-              'Founded in 1937 in New York City — over 89 years of service',
-              '350,000+ members across North America',
-              'Publishes the official rule card every year',
-              'Only authorized source for genuine NMJL cards',
-              'Answers rules questions and settles disputes',
-              'Donates generously to charities nationwide',
-            ].map((item, i) => (
-              <div key={i} className="flex items-start gap-4 bg-white rounded-2xl p-5 border-2 border-stone-200">
-                <div className="w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center mt-0.5" style={{ background: GREEN }}>
-                  <Check size={16} color="white" strokeWidth={3} />
-                </div>
-                <p style={{ fontSize: '18px', lineHeight: '1.65', color: '#2a2a2a', fontWeight: 500 }}>{item}</p>
+        {/* Card grid */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 2 }}>
+          {cards2026.map((card, idx) => (
+            <div key={card.id} style={{
+              background: idx === 2 ? GREEN : '#fff',
+              border: `2px solid ${idx === 2 ? GOLD : `${GREEN}22`}`,
+              borderTop: `5px solid ${idx === 2 ? GOLD : GREEN}`,
+              padding: '36px 28px',
+              position: 'relative',
+            }}>
+              {/* Badge */}
+              <div style={{
+                display: 'inline-block',
+                background: BURGUNDY, color: '#fff',
+                fontFamily: "'Lora', Georgia, serif",
+                fontWeight: 600, fontSize: 11,
+                letterSpacing: '0.12em', textTransform: 'uppercase',
+                padding: '4px 12px', marginBottom: 20,
+              }}>
+                {card.badge}
               </div>
-            ))}
-          </div>
+              <h3 style={{
+                fontFamily: "'Playfair Display', Georgia, serif",
+                fontWeight: 700, fontSize: 22,
+                color: idx === 2 ? '#fff' : GREEN,
+                margin: '0 0 10px', lineHeight: 1.2,
+              }}>
+                {card.name}
+              </h3>
+              <p style={{
+                fontFamily: "'Lora', Georgia, serif",
+                fontSize: 16, lineHeight: 1.65,
+                color: idx === 2 ? 'rgba(247,242,232,0.8)' : '#555',
+                margin: '0 0 28px',
+              }}>
+                {card.desc}
+              </p>
+              <div style={{
+                fontFamily: "'Playfair Display', Georgia, serif",
+                fontWeight: 700, fontSize: 32,
+                color: idx === 2 ? GOLD : GREEN,
+                marginBottom: 24,
+              }}>
+                ${card.price.toFixed(2)}
+              </div>
+
+              {/* Qty + Add */}
+              <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                <div style={{
+                  display: 'flex', alignItems: 'center',
+                  border: `2px solid ${idx === 2 ? 'rgba(201,168,76,0.5)' : `${GREEN}44`}`,
+                }}>
+                  <button onClick={() => setQty(q => ({ ...q, [card.id]: Math.max(1, (q[card.id]||1) - 1) }))}
+                    style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '8px 14px', fontSize: 18, color: idx === 2 ? CREAM : GREEN }}>
+                    −
+                  </button>
+                  <span style={{ fontFamily: "'Lora', serif", fontWeight: 600, fontSize: 17, padding: '0 10px', color: idx === 2 ? '#fff' : GREEN }}>
+                    {qty[card.id] || 1}
+                  </span>
+                  <button onClick={() => setQty(q => ({ ...q, [card.id]: (q[card.id]||1) + 1 }))}
+                    style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '8px 14px', fontSize: 18, color: idx === 2 ? CREAM : GREEN }}>
+                    +
+                  </button>
+                </div>
+                <button onClick={() => addToCart(card, qty[card.id] || 1)}
+                  style={{
+                    flex: 1,
+                    fontFamily: "'Lora', Georgia, serif",
+                    fontWeight: 600, fontSize: 14,
+                    letterSpacing: '0.06em', textTransform: 'uppercase',
+                    background: idx === 2 ? GOLD : GREEN,
+                    color: '#fff', border: 'none',
+                    padding: '12px 0', cursor: 'pointer',
+                    borderRadius: 40,
+                    transition: 'opacity 0.2s',
+                  }}>
+                  Add to Cart
+                </button>
+              </div>
+            </div>
+          ))}
         </div>
       </section>
-    </>
+
+      {/* ── SECTION DIVIDER ───────────────────────────────────────── */}
+      <div style={{ background: `${GREEN}10`, borderTop: `1px solid ${GREEN}20`, borderBottom: `1px solid ${GREEN}20`, padding: '12px 0', textAlign: 'center', letterSpacing: 16, fontSize: 16, color: `${GREEN}60` }}>
+        🀇 &nbsp; 🀈 &nbsp; 🀙 &nbsp; 🀠 &nbsp; 🀅
+      </div>
+
+      {/* ── NAVIGATION TILES ──────────────────────────────────────── */}
+      <section style={{ padding: '80px 32px', maxWidth: 1280, margin: '0 auto' }}>
+        <div style={{ textAlign: 'center', marginBottom: 52 }}>
+          <div style={{ fontFamily: "'Lora', Georgia, serif", fontWeight: 600, fontSize: 12, letterSpacing: '0.2em', textTransform: 'uppercase', color: GOLD, marginBottom: 12 }}>
+            Everything We Offer
+          </div>
+          <h2 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 900, fontSize: 'clamp(26px, 4vw, 40px)', color: GREEN, margin: 0 }}>
+            Explore the League
+          </h2>
+        </div>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 1, border: `1px solid ${GREEN}22` }}>
+          {NAV_TILES.map((tile, i) => (
+            <Link key={tile.href} to={tile.href} style={{ textDecoration: 'none' }}>
+              <div style={{
+                padding: '36px 28px',
+                background: '#fff',
+                borderLeft: i % 3 !== 0 ? `1px solid ${GREEN}15` : 'none',
+                borderBottom: i < 3 ? `1px solid ${GREEN}15` : 'none',
+                transition: 'background 0.2s',
+              }}
+                onMouseEnter={e => e.currentTarget.style.background = `${GREEN}08`}
+                onMouseLeave={e => e.currentTarget.style.background = '#fff'}
+              >
+                <div style={{ fontSize: 28, marginBottom: 14 }}>{tile.icon}</div>
+                <h3 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 700, fontSize: 20, color: GREEN, margin: '0 0 8px' }}>
+                  {tile.label}
+                </h3>
+                <p style={{ fontFamily: "'Lora', Georgia, serif", fontSize: 16, color: '#666', margin: 0, lineHeight: 1.5 }}>
+                  {tile.sub}
+                </p>
+                <div style={{ marginTop: 20, fontFamily: "'Lora', serif", fontSize: 14, fontWeight: 600, letterSpacing: '0.06em', textTransform: 'uppercase', color: GOLD }}>
+                  Learn more →
+                </div>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      {/* ── FOOTER TRUTHS BAND ────────────────────────────────────── */}
+      <section style={{ background: GREEN, padding: '64px 32px' }}>
+        <div style={{ maxWidth: 1280, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 40 }}>
+          {[
+            { num: '350,000+', label: 'Active Members', sub: 'Across North America and beyond' },
+            { num: '89',       label: 'Years of Play',  sub: 'Founded in New York City, 1937' },
+            { num: '$3M+',     label: 'Given to Charity', sub: 'Supporting 28 organizations' },
+          ].map(fact => (
+            <div key={fact.num} style={{ textAlign: 'center', borderTop: `3px solid ${GOLD}`, paddingTop: 28 }}>
+              <div style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 900, fontSize: 52, color: GOLD, lineHeight: 1 }}>
+                {fact.num}
+              </div>
+              <div style={{ fontFamily: "'Lora', Georgia, serif", fontWeight: 600, fontSize: 18, color: '#fff', margin: '10px 0 6px', letterSpacing: '0.03em' }}>
+                {fact.label}
+              </div>
+              <div style={{ fontFamily: "'Lora', Georgia, serif", fontSize: 15, color: 'rgba(247,242,232,0.6)' }}>
+                {fact.sub}
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+    </div>
   );
 }

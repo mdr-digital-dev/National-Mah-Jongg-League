@@ -1,17 +1,56 @@
 import { useState } from 'react';
-import { FAQS, GREEN, DARK } from '../data';
+import { FAQS } from '../data';
 
-function FaqItem({ faq }) {
-  const [open, setOpen] = useState(false);
+const GREEN = '#1C3A2A';
+const GOLD  = '#C9A84C';
+const CREAM = '#F7F2E8';
+
+function FaqItem({ q, a, isOpen, onToggle }) {
   return (
-    <div className="border-2 border-stone-300 rounded-2xl overflow-hidden bg-white">
-      <button onClick={() => setOpen(o => !o)} className="w-full text-left flex items-center justify-between px-6 py-5 hover:bg-stone-50 transition-colors" aria-expanded={open} style={{ minHeight: '72px' }}>
-        <span style={{ fontSize: '19px', fontWeight: 700, lineHeight: '1.4', color: DARK, paddingRight: '16px' }}>{faq.q}</span>
-        <span className="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center font-bold text-2xl" style={{ background: open ? GREEN : 'rgba(26,92,58,0.1)', color: open ? 'white' : GREEN, minWidth: '40px' }} aria-hidden="true">{open ? '−' : '+'}</span>
+    <div style={{
+      borderBottom: `1px solid ${GREEN}20`,
+    }}>
+      <button
+        onClick={onToggle}
+        style={{
+          width: '100%', textAlign: 'left',
+          background: 'none', border: 'none',
+          padding: '24px 0',
+          cursor: 'pointer',
+          display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 24,
+        }}
+      >
+        <span style={{
+          fontFamily: "'Playfair Display', Georgia, serif",
+          fontWeight: 700, fontSize: 20,
+          color: GREEN, lineHeight: 1.35,
+        }}>
+          {q}
+        </span>
+        <span style={{
+          flexShrink: 0, width: 28, height: 28,
+          border: `2px solid ${isOpen ? GOLD : GREEN}`,
+          borderRadius: '50%',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          fontFamily: 'monospace', fontSize: 18,
+          color: isOpen ? GOLD : GREEN,
+          marginTop: 2,
+          transition: 'border-color 0.2s, color 0.2s',
+        }}>
+          {isOpen ? '−' : '+'}
+        </span>
       </button>
-      {open && (
-        <div className="px-6 pb-6 pt-4 border-t-2 border-stone-200">
-          <p style={{ fontSize: '18px', lineHeight: '1.85', color: '#2a2a2a' }}>{faq.a}</p>
+      {isOpen && (
+        <div style={{ paddingBottom: 28 }}>
+          <p style={{
+            fontFamily: "'Lora', Georgia, serif",
+            fontSize: 18, lineHeight: 1.8,
+            color: '#555', margin: 0,
+            borderLeft: `4px solid ${GOLD}`,
+            paddingLeft: 20,
+          }}>
+            {a}
+          </p>
         </div>
       )}
     </div>
@@ -19,17 +58,52 @@ function FaqItem({ faq }) {
 }
 
 export default function Faq() {
+  const [open, setOpen] = useState(0);
+
   return (
-    <div style={{ minHeight: '100vh', background: '#f0ede4' }}>
-      <div style={{ background: GREEN, padding: '40px 24px', paddingTop: '112px' }}>
-        <div className="max-w-3xl mx-auto">
-          <h1 style={{ fontFamily: 'Georgia, serif', fontSize: 'clamp(1.8rem, 4vw, 2.8rem)', fontWeight: 700, color: 'white', marginBottom: '8px' }}>Frequently Asked Questions</h1>
-          <p style={{ fontSize: '18px', color: 'rgba(255,255,255,0.85)' }}>Common questions about orders, rules, and the game — answered clearly.</p>
+    <div style={{ background: CREAM, paddingTop: 72 }}>
+      {/* Header */}
+      <div style={{ background: GREEN, padding: '52px 32px 44px', borderBottom: `4px solid ${GOLD}` }}>
+        <div style={{ maxWidth: 1280, margin: '0 auto' }}>
+          <div style={{ fontFamily: "'Lora', Georgia, serif", fontWeight: 600, fontSize: 12, letterSpacing: '0.18em', textTransform: 'uppercase', color: GOLD, marginBottom: 10 }}>
+            Common Questions
+          </div>
+          <h1 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 900, fontSize: 'clamp(32px, 5vw, 56px)', color: '#fff', margin: 0 }}>
+            Frequently Asked Questions
+          </h1>
         </div>
       </div>
-      <div style={{ padding: '56px 24px' }}>
-        <div className="max-w-3xl mx-auto space-y-4">
-          {FAQS.map((faq, i) => <FaqItem key={i} faq={faq} />)}
+
+      <div style={{ maxWidth: 800, margin: '0 auto', padding: '72px 32px' }}>
+        {/* Decorative */}
+        <div style={{ textAlign: 'center', fontSize: 18, letterSpacing: 10, marginBottom: 52, color: `${GREEN}50` }}>
+          🀇 &nbsp; 🀙 &nbsp; 🀠
+        </div>
+
+        {FAQS.map((faq, i) => (
+          <FaqItem
+            key={i}
+            q={faq.q}
+            a={faq.a}
+            isOpen={open === i}
+            onToggle={() => setOpen(open === i ? -1 : i)}
+          />
+        ))}
+
+        {/* More help */}
+        <div style={{
+          marginTop: 64,
+          background: `${GREEN}08`,
+          border: `1px solid ${GREEN}20`,
+          borderLeft: `5px solid ${GOLD}`,
+          padding: '28px 28px',
+        }}>
+          <h3 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 700, fontSize: 22, color: GREEN, margin: '0 0 12px' }}>
+            Still have a question?
+          </h3>
+          <p style={{ fontFamily: "'Lora', Georgia, serif", fontSize: 17, lineHeight: 1.7, color: '#555', margin: '0 0 20px' }}>
+            Call us at <a href="tel:+12122463052" style={{ color: GREEN, fontWeight: 600 }}>(212) 246-3052</a>, or write to us at 450 7th Avenue, Suite 405, New York, NY 10123. Include a self-addressed stamped envelope if requesting a written reply.
+          </p>
         </div>
       </div>
     </div>

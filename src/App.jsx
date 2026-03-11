@@ -1,6 +1,5 @@
 import { useState, useRef } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { Check } from 'lucide-react';
 import Layout from './components/Layout';
 import Home    from './pages/Home';
 import About   from './pages/About';
@@ -10,13 +9,31 @@ import Charity from './pages/Charity';
 import Faq     from './pages/Faq';
 import Contact from './pages/Contact';
 
+const GOLD = '#C9A84C';
+const GREEN = '#1C3A2A';
+
 function Toast({ toasts }) {
   return (
-    <div className="fixed bottom-8 left-1/2 z-50 space-y-3 pointer-events-none" style={{ transform: 'translateX(-50%)' }}>
+    <div style={{
+      position: 'fixed', bottom: 32, left: '50%',
+      transform: 'translateX(-50%)',
+      zIndex: 200,
+      display: 'flex', flexDirection: 'column', gap: 10,
+      pointerEvents: 'none',
+    }}>
       {toasts.map(t => (
-        <div key={t.id} className="bg-stone-900 text-white px-7 py-4 rounded-2xl shadow-2xl flex items-center gap-3 whitespace-nowrap" style={{ fontSize: '18px' }} role="status">
-          <Check size={22} className="text-emerald-400 flex-shrink-0" />
-          Added to cart!
+        <div key={t.id} role="status" style={{
+          background: GREEN, color: '#fff',
+          fontFamily: "'Lora', Georgia, serif",
+          fontWeight: 600, fontSize: 17,
+          padding: '14px 28px',
+          border: `2px solid ${GOLD}`,
+          display: 'flex', alignItems: 'center', gap: 10,
+          whiteSpace: 'nowrap',
+          boxShadow: '0 4px 24px rgba(0,0,0,0.18)',
+        }}>
+          <span style={{ color: GOLD }}>✓</span>
+          Added to cart
         </div>
       ))}
     </div>
@@ -50,12 +67,12 @@ export default function App() {
 
   return (
     <BrowserRouter>
-      <Layout cart={cart} onUpdateQty={updateQty} onRemove={removeFromCart}>
+      <Layout cart={cart} updateQty={updateQty} removeFromCart={removeFromCart}>
         <Routes>
-          <Route path="/"        element={<Home />} />
+          <Route path="/"        element={<Home addToCart={addToCart} />} />
           <Route path="/about"   element={<About />} />
           <Route path="/game"    element={<Game />} />
-          <Route path="/store"   element={<Store onAdd={addToCart} />} />
+          <Route path="/store"   element={<Store addToCart={addToCart} />} />
           <Route path="/charity" element={<Charity />} />
           <Route path="/faq"     element={<Faq />} />
           <Route path="/contact" element={<Contact />} />
