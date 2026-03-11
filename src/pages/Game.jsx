@@ -13,7 +13,7 @@ export default function Game() {
       <div style={{ background: 'white', padding: '64px 24px' }}>
         <div className="max-w-5xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
           <div className="rounded-2xl overflow-hidden border-2 border-stone-200">
-            <img src="https://www.nationalmahjonggleague.org/images/game_01.jpg" alt="People playing Mah Jongg" className="w-full object-cover" style={{ height: '300px' }} loading="lazy" onError={e => { e.target.src = 'https://images.unsplash.com/photo-1611329857570-f02f340e7378?w=800&q=80'; }} />
+            <img src="https://www.nationalmahjonggleague.org/images/game_01.jpg" alt="Close-up of Mah Jongg tiles" className="w-full object-cover" style={{ height: '300px' }} loading="lazy" onError={e => { e.target.src = 'https://images.unsplash.com/photo-1611329857570-f02f340e7378?w=800&q=80'; }} />
           </div>
           <div>
             <p style={{ fontSize: '19px', lineHeight: '1.9', color: '#2a2a2a', marginBottom: '1.25rem' }}>

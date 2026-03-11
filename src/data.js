@@ -4,13 +4,11 @@ export const CREAM = '#faf6ee';
 export const DARK  = '#1a1a1a';
 
 export const NAV_LINKS = [
-  { label: 'Home',            href: '/'        },
-  { label: 'About',           href: '/about'   },
-  { label: 'The Game',        href: '/game'    },
-  { label: 'Store',           href: '/store'   },
-  { label: 'Charitable Work', href: '/charity' },
-  { label: 'FAQ',             href: '/faq'     },
-  { label: 'Contact',         href: '/contact' },
+  { label: 'Home',    href: '/'        },
+  { label: 'Store',   href: '/store'   },
+  { label: 'About',   href: '/about'   },
+  { label: 'FAQ',     href: '/faq'     },
+  { label: 'Contact', href: '/contact' },
 ];
 
 export const STORE_CATEGORIES = [
@@ -71,12 +69,34 @@ export const FAQS = [
 ];
 
 export const CHARITIES = [
-  "Alzheimer's Association", 'American Cancer Society', 'American Diabetes Association',
-  'American Heart Association', 'American Red Cross', 'Brandeis University',
-  'City of Hope', 'C.A.R.E.', 'Cystic Fibrosis Foundation', 'Food Bank NYC',
-  'Habitat For Humanity', 'Hadassah', 'Make A Wish Foundation', 'Meals on Wheels',
-  'Ronald McDonald House', 'Salvation Army', 'Shriners Hospital',
-  "St. Jude's Children's Hospital", 'Susan G. Komen Foundation',
+  "Alzheimer's Association",
+  'American Cancer Society',
+  'American Diabetes Association',
+  'American Heart Association',
+  'American Red Cross',
+  'Brandeis University',
+  'City of Hope',
+  'C.A.R.E.',
+  'Cystic Fibrosis Foundation',
+  'Damon Runyon Cancer Research Foundation',
+  'Deborah Hospital',
+  'Epilepsy Foundation',
+  'Food Bank NYC',
+  'Hackensack University Medical Center',
+  'Hadassah',
+  'Habitat For Humanity',
+  'Joe DiMaggio Children\'s Hospital',
+  'Make A Wish Foundation',
+  'Meals on Wheels',
+  'Muscular Dystrophy Association',
+  'ORT America',
+  'Ronald McDonald House',
+  'Salvation Army',
+  'Shriners Hospital',
+  "St. Jude's Children's Hospital",
+  'Susan G. Komen Foundation',
+  'Valley Hospital',
+  'Y.W.C.A.',
 ];
 
 export const HERO_IMAGES = [

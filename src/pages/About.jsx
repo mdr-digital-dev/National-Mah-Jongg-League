@@ -47,7 +47,7 @@ export default function About() {
 
           <div className="space-y-6">
             <div className="rounded-2xl overflow-hidden border-2 border-stone-200">
-              <img src="https://www.nationalmahjonggleague.org/images/league_01.jpg" alt="The National Mah Jongg League" className="w-full object-cover" style={{ height: '260px' }} loading="lazy" onError={e => { e.target.src = 'https://images.unsplash.com/photo-1611329857570-f02f340e7378?w=800&q=80'; }} />
+              <img src="https://www.nationalmahjonggleague.org/images/league_01.jpg" alt="NMJL founders and early members" className="w-full object-cover" style={{ height: '280px' }} loading="lazy" onError={e => { e.target.src = 'https://images.unsplash.com/photo-1611329857570-f02f340e7378?w=800&q=80'; }} />
             </div>
             <div className="grid grid-cols-2 gap-4">
               {[
