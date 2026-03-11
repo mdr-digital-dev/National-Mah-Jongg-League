@@ -1,10 +1,18 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { Minus, Plus, Check, ShoppingCart } from 'lucide-react';
+import { Minus, Plus, Check, ShoppingCart, Package } from 'lucide-react';
 import { PRODUCTS, STORE_CATEGORIES, GREEN, DARK } from '../data';
 
-// ── Single product row ──────────────────────────────────────────────────────
-function ProductRow({ product, onAdd, isEven }) {
+const CAT_ICONS = {
+  'Rule Cards':   '📋',
+  'Tiles & Sets': '🀄',
+  'Accessories':  '🎯',
+  'Apparel':      '👕',
+  'Books':        '📖',
+};
+
+// ── Product Card ─────────────────────────────────────────────────────────────
+function ProductCard({ product, onAdd }) {
   const [qty, setQty] = useState(1);
   const [added, setAdded] = useState(false);
 
@@ -14,55 +22,124 @@ function ProductRow({ product, onAdd, isEven }) {
     setTimeout(() => setAdded(false), 2000);
   }
 
-  const badgeStyle = {
-    'New 2026':  { background: GREEN,    color: 'white'  },
-    'Best Value': { background: '#8b1a2e', color: 'white' },
+  const badgeColors = {
+    'New 2026':   { bg: '#1a5c3a', text: 'white' },
+    'Best Value': { bg: '#8b1a2e', text: 'white'  },
   };
-  const bs = product.badge ? badgeStyle[product.badge] : null;
+  const badge = product.badge ? badgeColors[product.badge] : null;
 
   return (
-    <div className="flex flex-col sm:flex-row sm:items-center gap-4 py-4 px-6 border-b border-stone-200 last:border-0" style={{ background: isEven ? '#fff' : '#f8f8f6' }}>
-      {/* Left: name + desc */}
-      <div className="flex-1 min-w-0">
-        <div className="flex flex-wrap items-center gap-2 mb-1">
-          <h3 className="font-bold" style={{ fontSize: '19px', color: DARK, lineHeight: '1.3' }}>{product.name}</h3>
-          {bs && (
-            <span className="inline-block font-bold px-3 py-0.5 rounded-full text-sm" style={{ ...bs, fontSize: '13px' }}>
+    <div
+      className="bg-white rounded-2xl flex flex-col overflow-hidden transition-shadow duration-200 hover:shadow-lg"
+      style={{ border: '2px solid #e5e2db', boxShadow: '0 2px 8px rgba(0,0,0,0.06)' }}
+    >
+      {/* Top accent */}
+      <div style={{ height: '6px', background: `linear-gradient(90deg, ${GREEN}, #2d7a52)`, flexShrink: 0 }} />
+
+      <div style={{ padding: '20px 22px 22px', display: 'flex', flexDirection: 'column', flex: 1, gap: '12px' }}>
+        {/* Badge */}
+        {badge && (
+          <div>
+            <span style={{ background: badge.bg, color: badge.text, fontSize: '12px', fontWeight: 700, padding: '3px 10px', borderRadius: '999px', letterSpacing: '0.04em', textTransform: 'uppercase' }}>
               {product.badge}
             </span>
-          )}
-        </div>
-        <p style={{ fontSize: '17px', color: '#555', lineHeight: '1.55' }}>{product.desc}</p>
-      </div>
+          </div>
+        )}
 
-      {/* Right: price + qty + button */}
-      <div className="flex flex-wrap items-center gap-3 flex-shrink-0">
+        {/* Name */}
+        <h3 style={{ fontFamily: 'Georgia, serif', fontSize: '18px', fontWeight: 700, color: DARK, lineHeight: '1.35', margin: 0 }}>
+          {product.name}
+        </h3>
+
+        {/* Description */}
+        <p style={{ fontSize: '15px', color: '#666', lineHeight: '1.6', margin: 0, flex: 1 }}>
+          {product.desc}
+        </p>
+
         {/* Price */}
-        <span className="font-bold" style={{ fontSize: '22px', color: GREEN, minWidth: '70px' }}>
+        <div style={{ fontSize: '28px', fontWeight: 700, color: GREEN, lineHeight: 1 }}>
           ${product.price.toFixed(2)}
-        </span>
-
-        {/* Qty */}
-        <div className="flex items-center gap-2">
-          <button onClick={() => setQty(q => Math.max(1, q - 1))} className="flex items-center justify-center rounded-lg border-2 border-stone-300 font-bold hover:bg-stone-100 transition-colors" style={{ width: '48px', height: '48px' }} aria-label="Decrease"><Minus size={16} strokeWidth={2.5} /></button>
-          <span className="font-bold text-center" style={{ width: '30px', fontSize: '18px' }}>{qty}</span>
-          <button onClick={() => setQty(q => q + 1)} className="flex items-center justify-center rounded-lg border-2 border-stone-300 font-bold hover:bg-stone-100 transition-colors" style={{ width: '48px', height: '48px' }} aria-label="Increase"><Plus size={16} strokeWidth={2.5} /></button>
         </div>
 
-        {/* Add button */}
-        <button
-          onClick={handleAdd}
-          className="flex items-center gap-2 rounded-xl font-bold text-white transition-all hover:opacity-90"
-          style={{ height: '48px', padding: '0 20px', fontSize: '16px', minWidth: '148px', justifyContent: 'center', background: added ? '#059669' : `linear-gradient(135deg, ${GREEN}, #2d7a52)` }}
-        >
-          {added ? <><Check size={18} strokeWidth={2.5} /> Added!</> : <><ShoppingCart size={18} /> Add to Cart</>}
-        </button>
+        {/* Divider */}
+        <div style={{ height: '1px', background: '#ede9e1' }} />
+
+        {/* Qty + Add */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', border: '2px solid #d1cdc5', borderRadius: '10px', overflow: 'hidden' }}>
+            <button
+              onClick={() => setQty(q => Math.max(1, q - 1))}
+              style={{ width: '42px', height: '42px', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#f5f3ef', border: 'none', cursor: 'pointer', borderRight: '2px solid #d1cdc5', fontSize: '20px', color: '#444', fontWeight: 700 }}
+              aria-label="Decrease quantity"
+            >
+              <Minus size={15} strokeWidth={2.5} />
+            </button>
+            <span style={{ width: '36px', textAlign: 'center', fontSize: '18px', fontWeight: 700, color: DARK }}>
+              {qty}
+            </span>
+            <button
+              onClick={() => setQty(q => q + 1)}
+              style={{ width: '42px', height: '42px', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#f5f3ef', border: 'none', cursor: 'pointer', borderLeft: '2px solid #d1cdc5', fontSize: '20px', color: '#444', fontWeight: 700 }}
+              aria-label="Increase quantity"
+            >
+              <Plus size={15} strokeWidth={2.5} />
+            </button>
+          </div>
+
+          <button
+            onClick={handleAdd}
+            style={{
+              flex: 1,
+              height: '46px',
+              borderRadius: '10px',
+              border: 'none',
+              cursor: 'pointer',
+              fontWeight: 700,
+              fontSize: '15px',
+              color: 'white',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '6px',
+              background: added ? '#059669' : `linear-gradient(135deg, ${GREEN}, #2d7a52)`,
+              transition: 'all 0.15s',
+            }}
+          >
+            {added
+              ? <><Check size={16} strokeWidth={2.5} /> Added!</>
+              : <><ShoppingCart size={16} /> Add to Cart</>
+            }
+          </button>
+        </div>
       </div>
     </div>
   );
 }
 
-// ── Store Page ──────────────────────────────────────────────────────────────
+// ── 2026 Featured Strip ───────────────────────────────────────────────────────
+function FeaturedStrip({ onAdd }) {
+  const cards2026 = PRODUCTS.filter(p => [1, 2, 25].includes(p.id));
+  return (
+    <div style={{ background: '#fffbf0', border: '2px solid #c9a227', borderRadius: '16px', padding: '24px', marginBottom: '28px' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '6px' }}>
+        <span style={{ background: '#b8960c', color: 'white', fontSize: '12px', fontWeight: 700, padding: '3px 10px', borderRadius: '999px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+          New for 2026
+        </span>
+        <h3 style={{ fontFamily: 'Georgia, serif', fontSize: '20px', fontWeight: 700, color: DARK, margin: 0 }}>
+          2026 Official Rule Cards
+        </h3>
+      </div>
+      <p style={{ fontSize: '15px', color: '#7a6520', marginBottom: '20px' }}>
+        Ships beginning of April — order now to reserve yours.
+      </p>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(230px, 1fr))', gap: '16px' }}>
+        {cards2026.map(p => <ProductCard key={p.id} product={p} onAdd={onAdd} />)}
+      </div>
+    </div>
+  );
+}
+
+// ── Store Page ────────────────────────────────────────────────────────────────
 export default function Store({ onAdd }) {
   const [searchParams, setSearchParams] = useSearchParams();
   const initialCat = searchParams.get('cat') || 'All';
@@ -72,110 +149,123 @@ export default function Store({ onAdd }) {
   function selectCat(cat) {
     setActiveCat(cat);
     setSearchParams(cat === 'All' ? {} : { cat });
-    // Scroll list to top on mobile
     listRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
-  const filtered = activeCat === 'All' ? PRODUCTS : PRODUCTS.filter(p => p.cat === activeCat);
+  const show2026 = activeCat === 'All' || activeCat === 'Rule Cards';
+  const mainProducts = PRODUCTS
+    .filter(p => activeCat === 'All' ? true : p.cat === activeCat)
+    .filter(p => show2026 ? ![1, 2, 25].includes(p.id) : true);
 
   return (
-    <div style={{ paddingTop: '72px', minHeight: '100vh', background: '#faf6ee' }}>
+    <div style={{ paddingTop: '72px', minHeight: '100vh', background: '#f5f2ea' }}>
+
       {/* Page header */}
       <div style={{ background: GREEN, padding: '40px 24px' }}>
-        <div className="max-w-6xl mx-auto">
-          <h1 style={{ fontFamily: 'Georgia, serif', fontSize: 'clamp(1.8rem, 4vw, 2.8rem)', fontWeight: 700, color: 'white', marginBottom: '8px' }}>
+        <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
+          <h1 style={{ fontFamily: 'Georgia, serif', fontSize: 'clamp(1.8rem, 4vw, 2.6rem)', fontWeight: 700, color: 'white', marginBottom: '6px' }}>
             The Official NMJL Store
           </h1>
-          <p style={{ fontSize: '18px', color: 'rgba(255,255,255,0.85)' }}>
-            Rule cards, tiles, accessories, apparel, and books — all official NMJL merchandise.
+          <p style={{ fontSize: '18px', color: 'rgba(255,255,255,0.82)', margin: 0 }}>
+            All official NMJL merchandise — rule cards, tiles, accessories, apparel, and books.
           </p>
         </div>
       </div>
 
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10">
-        <div className="flex flex-col lg:flex-row gap-8">
+      <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '36px 20px' }}>
+        <div style={{ display: 'flex', gap: '28px', alignItems: 'flex-start' }}>
 
-          {/* ── Sidebar: categories ── */}
-          <aside className="lg:w-56 flex-shrink-0">
-            <div className="bg-white rounded-2xl border-2 border-stone-200 overflow-hidden sticky top-24">
-              <div className="px-5 py-4 border-b-2 border-stone-200" style={{ background: '#f5f5f0' }}>
-                <h2 className="font-bold" style={{ fontSize: '17px', color: DARK }}>Browse by Category</h2>
+          {/* ── Sidebar ── */}
+          <aside style={{ width: '220px', flexShrink: 0 }}>
+            <div style={{ background: 'white', borderRadius: '16px', border: '2px solid #e0ddd6', overflow: 'hidden', position: 'sticky', top: '88px', boxShadow: '0 2px 8px rgba(0,0,0,0.06)' }}>
+              <div style={{ padding: '14px 18px', borderBottom: '2px solid #e0ddd6', background: '#f5f2ea' }}>
+                <span style={{ fontSize: '12px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#666' }}>Categories</span>
               </div>
-              <nav>
-                {STORE_CATEGORIES.map(cat => {
-                  const count = cat === 'All' ? PRODUCTS.length : PRODUCTS.filter(p => p.cat === cat).length;
-                  const active = activeCat === cat;
-                  return (
-                    <button
-                      key={cat}
-                      onClick={() => selectCat(cat)}
-                      className="flex items-center justify-between w-full px-5 py-4 font-bold transition-colors border-b border-stone-100 last:border-0 hover:bg-stone-50"
-                      style={{
-                        fontSize: '17px',
-                        color: active ? 'white' : '#2a2a2a',
-                        background: active ? GREEN : 'transparent',
-                        textAlign: 'left',
-                      }}
-                    >
-                      <span>{cat}</span>
-                      <span className="rounded-full font-bold px-2 py-0.5 text-sm" style={{ background: active ? 'rgba(255,255,255,0.25)' : '#e5e5e5', color: active ? 'white' : '#555', fontSize: '14px' }}>
-                        {count}
-                      </span>
-                    </button>
-                  );
-                })}
-              </nav>
+              {STORE_CATEGORIES.map(cat => {
+                const count = cat === 'All' ? PRODUCTS.length : PRODUCTS.filter(p => p.cat === cat).length;
+                const active = activeCat === cat;
+                return (
+                  <button
+                    key={cat}
+                    onClick={() => selectCat(cat)}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      width: '100%',
+                      padding: '13px 18px',
+                      fontSize: '16px',
+                      fontWeight: 700,
+                      color: active ? 'white' : '#2a2a2a',
+                      background: active ? GREEN : 'transparent',
+                      border: 'none',
+                      borderBottom: '1px solid #ede9e1',
+                      cursor: 'pointer',
+                      textAlign: 'left',
+                      transition: 'background 0.15s',
+                    }}
+                  >
+                    <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      {cat !== 'All' && <span style={{ fontSize: '16px' }}>{CAT_ICONS[cat]}</span>}
+                      {cat}
+                    </span>
+                    <span style={{
+                      fontSize: '13px',
+                      fontWeight: 700,
+                      padding: '1px 8px',
+                      borderRadius: '999px',
+                      background: active ? 'rgba(255,255,255,0.25)' : '#ede9e1',
+                      color: active ? 'white' : '#666',
+                    }}>
+                      {count}
+                    </span>
+                  </button>
+                );
+              })}
             </div>
 
-            {/* Mail order note */}
-            <div className="mt-5 bg-amber-50 rounded-2xl border-2 p-5" style={{ borderColor: '#d4af37' }}>
-              <p className="font-bold mb-2" style={{ fontSize: '16px', color: '#7a5c00' }}>📬 Order by Mail</p>
-              <p style={{ fontSize: '15px', color: '#5a4000', lineHeight: '1.7' }}>
+            {/* Mail order */}
+            <div style={{ marginTop: '16px', background: '#fffbf0', border: '2px solid #c9a227', borderRadius: '16px', padding: '18px' }}>
+              <p style={{ fontSize: '15px', fontWeight: 700, color: '#7a5c00', marginBottom: '8px' }}>📬 Order by Mail</p>
+              <p style={{ fontSize: '14px', color: '#5a4000', lineHeight: '1.7', margin: 0 }}>
                 Send a check to:<br />
                 <strong>NMJL, PO Box 50003<br />Newark NJ 07101-8006</strong>
               </p>
-              <p style={{ fontSize: '14px', color: '#6a5000', marginTop: '8px', lineHeight: '1.6' }}>
+              <p style={{ fontSize: '13px', color: '#6a5000', marginTop: '8px', lineHeight: '1.6' }}>
                 Include your name, address, and exact number of items.
               </p>
             </div>
           </aside>
 
-          {/* ── Product list ── */}
-          <div className="flex-1 min-w-0" ref={listRef}>
-            {/* Active category header */}
-            <div className="flex items-center justify-between mb-6 pb-4 border-b-2 border-stone-300">
-              <h2 style={{ fontFamily: 'Georgia, serif', fontSize: '22px', fontWeight: 700, color: DARK }}>
-                {activeCat === 'All' ? 'All Products' : activeCat}
+          {/* ── Product area ── */}
+          <div style={{ flex: 1, minWidth: 0 }} ref={listRef}>
+
+            {/* Category heading */}
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px' }}>
+              <h2 style={{ fontFamily: 'Georgia, serif', fontSize: '22px', fontWeight: 700, color: DARK, margin: 0 }}>
+                {activeCat === 'All' ? 'All Products' : `${CAT_ICONS[activeCat] || ''} ${activeCat}`}
               </h2>
-              <span style={{ fontSize: '16px', color: '#666', fontWeight: 600 }}>
-                {filtered.length} item{filtered.length !== 1 ? 's' : ''}
+              <span style={{ fontSize: '15px', color: '#888', fontWeight: 600 }}>
+                {(activeCat === 'All' ? PRODUCTS : PRODUCTS.filter(p => p.cat === activeCat)).length} items
               </span>
             </div>
 
-            {/* 2026 Card spotlight */}
-            {(activeCat === 'All' || activeCat === 'Rule Cards') && (
-              <div className="rounded-2xl border-2 p-6 mb-5" style={{ background: '#fffbf0', borderColor: '#b8960c' }}>
-                <div className="flex items-center gap-3 mb-1">
-                  <span className="font-bold px-3 py-1 rounded-full text-white" style={{ background: '#b8960c', fontSize: '13px' }}>NEW FOR 2026</span>
-                  <h3 style={{ fontFamily: 'Georgia, serif', fontSize: '20px', fontWeight: 700, color: DARK }}>2026 Official Rule Cards</h3>
-                </div>
-                <p style={{ fontSize: '16px', color: '#666', marginBottom: '16px' }}>Ships beginning of April — order now to reserve yours.</p>
-                <div className="divide-y divide-amber-200">
-                  {PRODUCTS.filter(p => [1, 2, 25].includes(p.id)).map((p, idx) => (
-                    <ProductRow key={p.id} product={p} onAdd={onAdd} isEven={idx % 2 === 0} />
-                  ))}
-                </div>
-              </div>
-            )}
+            {/* 2026 spotlight */}
+            {show2026 && <FeaturedStrip onAdd={onAdd} />}
 
-            {/* All other products */}
-            <div className="rounded-2xl border-2 border-stone-200 overflow-hidden">
-              {filtered
-                .filter(p => (activeCat === 'All' || activeCat === 'Rule Cards') ? ![1, 2, 25].includes(p.id) : true)
-                .map((p, idx) => (
-                  <ProductRow key={p.id} product={p} onAdd={onAdd} isEven={idx % 2 === 0} />
-              ))}
-            </div>
+            {/* Remaining products — card grid */}
+            {mainProducts.length > 0 && (
+              <>
+                {show2026 && (
+                  <h3 style={{ fontFamily: 'Georgia, serif', fontSize: '17px', fontWeight: 700, color: '#555', marginBottom: '16px', paddingBottom: '10px', borderBottom: '2px solid #e0ddd6' }}>
+                    All Other Products
+                  </h3>
+                )}
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: '16px' }}>
+                  {mainProducts.map(p => <ProductCard key={p.id} product={p} onAdd={onAdd} />)}
+                </div>
+              </>
+            )}
           </div>
         </div>
       </div>
